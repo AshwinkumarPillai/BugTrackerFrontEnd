@@ -1,18 +1,40 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { BrowserModule } from "@angular/platform-browser";
+import { NgModule } from "@angular/core";
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import { AppRoutingModule } from "./app-routing.module";
+import { AppComponent } from "./app.component";
+import { ProjectsComponent } from "./projects/projects.component";
+import { BugsComponent } from "./bugs/bugs.component";
+import { DashboardComponent } from "./dashboard/dashboard.component";
+import { LoginComponent } from "./login/login.component";
+import { RegisterComponent } from "./register/register.component";
+import { ApiService } from "./services/api.service";
+import { FormsModule } from "@angular/forms";
+import { HttpModule } from "@angular/http";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { UpdateProfileComponent } from "./update-profile/update-profile.component";
+import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
+import { AuthInterceptor } from "./services/auth.interceptor";
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ProjectsComponent,
+    BugsComponent,
+    DashboardComponent,
+    LoginComponent,
+    RegisterComponent,
+    UpdateProfileComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
+  imports: [BrowserModule, FormsModule, AppRoutingModule, HttpModule, HttpClientModule],
+  providers: [
+    ApiService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
