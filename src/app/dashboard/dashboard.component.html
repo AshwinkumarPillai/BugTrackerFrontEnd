@@ -1,3 +1,12 @@
-<p>
-  dashboard works!
-</p>
+<h1>Dashboard</h1>
+<br>
+<input type="text" placeholder="Project name" #proname>
+<button (click)="createProject(proname.value)">Create Project</button>
+<br><br>
+<hr>
+<br>
+<div *ngFor="let project of projects" class="project">
+    <h4>{{project.title}}</h4>
+    <p>Owner: &nbsp; {{project.superAdmin.name }} &nbsp;({{project.superAdmin.email }})</p>
+    <p>bugs: {{project.bugAssigned.length}}</p>
+</div>

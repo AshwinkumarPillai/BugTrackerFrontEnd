@@ -21,7 +21,7 @@ export class UpdateProfileComponent implements OnInit {
       designation
     };
 
-    this.api.updateUser(data).subscribe(response => {
+    this.api.updateUser(data).subscribe((response: any) => {
       this.message = response.message;
       console.log(response);
     });

@@ -1,0 +1,13 @@
+.project {
+  border: 1px solid black;
+  width: 50vw;
+  margin-bottom: 2vh;
+  box-shadow: 0px 0px 10px #d3d3d3;
+  padding: 10px;
+  transition: 0.3s;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+}

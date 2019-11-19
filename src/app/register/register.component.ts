@@ -22,7 +22,7 @@ export class RegisterComponent implements OnInit {
       designation: designation.value
     };
 
-    this.api.registerUser(data).subscribe(response => {
+    this.api.registerUser(data).subscribe((response: any) => {
       this.message = response.message;
       console.log(response);
     });

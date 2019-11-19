@@ -16,8 +16,8 @@ export class ApiService {
   // User Routes
   registerUser(data) {
     console.log(data);
-    return this.http.post(this.url + "/user/register", data).map((response: Response) => {
-      return response.json();
+    return this.httpClient.post(this.url + "/user/register", data).map((response: Response) => {
+      return response;
     });
   }
 
@@ -25,94 +25,91 @@ export class ApiService {
     return this.httpClient.post(this.url + "/user/login", data).map((response: Response) => {
       return response;
     });
-    // return this.http.post(this.url + "/user/login", data).map((response: Response) => {
-    //   return response.json();
-    // });
   }
 
   updateUser(data) {
-    return this.http.post(this.url + "/user/update", data).map((response: Response) => {
-      return response.json();
+    return this.httpClient.post(this.url + "/user/update", data).map((response: Response) => {
+      return response;
     });
   }
 
   getOneProject(data) {
-    return this.http.post(this.url + "/user/getOneProject", data).map((response: Response) => {
-      return response.json();
+    return this.httpClient.post(this.url + "/user/getOneProject", data).map((response: Response) => {
+      return response;
     });
   }
 
-  getAllProject(data) {
-    return this.http.post(this.url + "/user/getAllProjects", data).map((response: Response) => {
-      return response.json();
+  getAllProject() {
+    return this.httpClient.post(this.url + "/user/getAllProjects", {}).map((response: Response) => {
+      return response;
     });
   }
 
   // Project Routes
   createProject(data) {
-    return this.http.post(this.url + "/project/new", data).map((response: Response) => {
-      return response.json();
+    return this.httpClient.post(this.url + "/project/new", data).map((response: Response) => {
+      return response;
     });
   }
 
   addBuddy(data) {
-    return this.http.post(this.url + "/project/addbuddy", data).map((response: Response) => {
-      return response.json();
+    return this.httpClient.post(this.url + "/project/addbuddy", data).map((response: Response) => {
+      return response;
     });
   }
 
   getAllUsers(data) {
-    return this.http.post(this.url + "/project/getAllUsers", data).map((response: Response) => {
-      return response.json();
+    return this.httpClient.post(this.url + "/project/getAllUsers", data).map((response: Response) => {
+      return response;
     });
   }
 
   removeBuddy(data) {
-    return this.http.post(this.url + "/project/removeBuddy", data).map((response: Response) => {
-      return response.json();
+    return this.httpClient.post(this.url + "/project/removeBuddy", data).map((response: Response) => {
+      return response;
     });
   }
 
   // Bug
   getAllBug(data) {
-    return this.http.post(this.url + "/bug/all", data).map((response: Response) => {
-      return response.json();
+    return this.httpClient.post(this.url + "/bug/all", data).map((response: Response) => {
+      return response;
     });
   }
 
   registerBug(data) {
-    return this.http.post(this.url + "/bug/new", data).map((response: Response) => {
-      return response.json();
+    return this.httpClient.post(this.url + "/bug/new", data).map((response: Response) => {
+      return response;
     });
   }
 
   updateBug(data) {
-    return this.http.post(this.url + "/bug/edit", data).map((response: Response) => {
-      return response.json();
+    return this.httpClient.post(this.url + "/bug/edit", data).map((response: Response) => {
+      return response;
     });
   }
 
   watchBug(data) {
-    return this.http.post(this.url + "/bug/watch", data).map((response: Response) => {
-      return response.json();
+    return this.httpClient.post(this.url + "/bug/watch", data).map((response: Response) => {
+      return response;
     });
   }
 
   archiveBug(data) {
-    return this.http.post(this.url + "/bug/archive", data).map((response: Response) => {
-      return response.json();
+    return this.httpClient.post(this.url + "/bug/archive", data).map((response: Response) => {
+      return response;
     });
   }
 
   submitSolution(data) {
-    return this.http.post(this.url + "/bug/solution", data).map((response: Response) => {
-      return response.json();
+    return this.httpClient.post(this.url + "/bug/solution", data).map((response: Response) => {
+      return response;
     });
   }
 
   assignBugToDevs(data) {
-    return this.http.post(this.url + "/bug/assignDev", data).map((response: Response) => {
-      return response.json();
+    return this.httpClient.post(this.url + "/bug/assignDev", data).map((response: Response) => {
+      return response;
     });
   }
 }
