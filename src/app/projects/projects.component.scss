@@ -1,0 +1,13 @@
+.userList {
+  border: 0.5px solid black;
+  padding: 7px;
+  cursor: pointer;
+
+  &:hover {
+    background: lightcyan;
+  }
+}
+
+.mainUserInput {
+  width: 50vw;
+}

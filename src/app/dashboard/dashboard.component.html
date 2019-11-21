@@ -5,7 +5,7 @@
 <br><br>
 <hr>
 <br>
-<div *ngFor="let project of projects" class="project">
+<div *ngFor="let project of projects" class="project" (click)="openProject(project)">
     <h4>{{project.title}}</h4>
     <p>Owner: &nbsp; {{project.superAdmin.name }} &nbsp;({{project.superAdmin.email }})</p>
     <p>bugs: {{project.bugAssigned.length}}</p>

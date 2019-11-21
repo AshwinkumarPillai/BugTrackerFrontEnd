@@ -15,7 +15,6 @@ Devs can:
 
 ## Features :
 
-1.
-2.
+1. HttpClient Interceptor implementation.
 
 ### Please report any bugs if you find any 😉.

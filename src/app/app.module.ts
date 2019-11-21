@@ -15,6 +15,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { UpdateProfileComponent } from "./update-profile/update-profile.component";
 import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { AuthInterceptor } from "./services/auth.interceptor";
+import { CreateBugComponent } from './create-bug/create-bug.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { AuthInterceptor } from "./services/auth.interceptor";
     DashboardComponent,
     LoginComponent,
     RegisterComponent,
-    UpdateProfileComponent
+    UpdateProfileComponent,
+    CreateBugComponent
   ],
   imports: [BrowserModule, FormsModule, AppRoutingModule, HttpModule, HttpClientModule],
   providers: [

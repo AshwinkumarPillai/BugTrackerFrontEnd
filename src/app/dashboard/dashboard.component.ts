@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ApiService } from "../services/api.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-dashboard",
@@ -8,13 +9,11 @@ import { ApiService } from "../services/api.service";
 })
 export class DashboardComponent implements OnInit {
   projects: any[] = [];
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService, private router: Router) {}
 
   ngOnInit() {
     this.api.getAllProject().subscribe((response: any) => {
-      console.log(response);
       this.projects = response.projects;
-      // console.log(this.projects[0].superAdmin);
     });
   }
 
@@ -22,8 +21,19 @@ export class DashboardComponent implements OnInit {
     let data = {
       title
     };
-    this.api.createProject(data).subscribe((response: any) => {
-      console.log(response);
+    this.api.createProject(data).subscribe(() => {
+      this.api.getAllProject().subscribe((response: any) => {
+        this.projects = response.projects;
+      });
     });
+  }
+
+  openProject(project) {
+    let data = {
+      projectId: project._id,
+      bugAssigned: project.bugAssigned
+    };
+    localStorage.setItem("projectData", JSON.stringify(data));
+    this.router.navigate(["/project/"]);
   }
 }

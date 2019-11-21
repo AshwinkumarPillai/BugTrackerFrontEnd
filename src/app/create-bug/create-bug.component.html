@@ -1,0 +1,18 @@
+<input type="text" placeholder="title" #title><br>
+<input type="text" placeholder="sub-title" #subtitle><br>
+<select name="" id="" (change)="setPriority($event)">
+  <option value="Low">Low</option>
+  <option value="Moderate">Moderate</option>
+  <option value="High">High</option>
+  <option value="Critical">Critical</option>
+</select><br>
+<input type="date" #deadline><br>
+<select name="" id="" #select (change)="watch($event)">
+  <option value="0">dont watch</option>
+  <option value="1">watch</option>
+</select><br><br>
+<div *ngIf="dev.length > 1">Assign Developer:</div>
+<div *ngIf="dev.length < 1">You don't have any teammates yet!</div>
+
+<br><br>
+<button (click)="create(title.value,subtitle.value,deadline.value,select)">Create</button>

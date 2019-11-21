@@ -1,3 +1,17 @@
-<p>
-  projects works!
-</p>
+<h1 *ngIf="project">{{project.title}}</h1>
+<button (click)="canSearch()" *ngIf="!search">Add member</button><br>
+<div *ngIf="search">
+  <input type="text" placeholder="email" (keyup)="searchUser($event)" #selectUser class="mainUserInput">
+  <button (click)="addMember()">Add</button>
+  <div *ngIf="message" style="font-family: sans-serif; color:red;"><i>{{message}}</i></div>
+</div>
+
+<div *ngFor="let user of userList" class="userList" (click)="addToInput(user)">
+  {{user.name}} &nbsp;&nbsp;&nbsp;{{user.email}}
+</div>
+<hr>
+<div *ngIf="bugs.length == 0">No bugs Yet</div>
+<button (click)="createBug()">Create Bug</button>
+<div *ngFor="let bug of bugs">
+  hello
+</div>
