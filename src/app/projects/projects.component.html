@@ -41,8 +41,8 @@
     <th>Status</th>
     <th>Deadline</th>
     <th>Devs</th>
-    <th class="actions">Assign Dev</th>
     <th class="actions">Solve</th>
+    <th class="actions">Assign Dev</th>
     <th class="actions">Edit</th>
     <th class="actions">Archive</th>
   </tr>
@@ -76,8 +76,11 @@
         <span *ngIf="bug.assignedDev.length >1 && !(bug.assignedDev.length-1 === k)">,</span>
       </span>
     </td>
+    <td class="actions">
+      <button *ngIf="!bug.solution" (click)="solveBug(bug)">Solve</button>
+      <button *ngIf="bug.solution" (click)="ViewSolution(bug)">View Solution</button>
+    </td>
     <td class="actions"><button (click)=AssignDev(bug)>Assign Dev</button></td>
-    <td class="actions"><button>Solve</button></td>
     <td class="actions">
       <button *ngIf="updateMap.get(i)"
         (click)="updateBug(bug._id,i,bugTitle.value, bugsubTitle.value,bugPriority.selectedOptions[0].text,bugStatus.selectedOptions[0].text,bugDeadline.value)">Update</button>
@@ -100,4 +103,15 @@
   </div>
   <br><br>
   <button (click)="assignBugToDevs()">Assign</button>
+</div>
+
+<div *ngIf="showSolveArea" style="border: 1px solid black; padding: 10px;">
+  <textarea name="" id="" cols="30" rows="10" #solution></textarea>
+  <button (click)="submitSolution()">Submit</button>
+  <button (click)="cancelSolution()">Cancel</button>
+</div>
+
+<div *ngIf="viewSolution" style="border: 1px solid black; padding: 10px;">
+  <textarea name="" id="" cols="30" rows="10" #viewSolutionCode></textarea>
+  <button (click)="closeSolution()">Close</button>
 </div>

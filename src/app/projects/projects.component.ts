@@ -9,6 +9,9 @@ import { Router } from "@angular/router";
 })
 export class ProjectsComponent implements OnInit {
   @ViewChild("selectUser") input: ElementRef;
+  @ViewChild("solution") solution: ElementRef;
+  @ViewChild("viewSolutionCode") viewSolutionCode: ElementRef;
+
   project: any;
   users: any[] = [];
   bugs: any[] = [];
@@ -21,6 +24,8 @@ export class ProjectsComponent implements OnInit {
   advcalled: boolean = false;
   assignDevMaps = new Map();
   currentBug: any;
+  showSolveArea: boolean = false;
+  viewSolution: boolean = false;
 
   constructor(private api: ApiService, private router: Router) {}
 
@@ -157,5 +162,49 @@ export class ProjectsComponent implements OnInit {
       console.log(response);
       this.ngOnInit();
     });
+  }
+
+  solveBug(bug) {
+    this.currentBug = bug._id;
+    this.showSolveArea = true;
+  }
+
+  submitSolution() {
+    if (/^\s*$/.test(this.solution.nativeElement.value)) {
+      this.solution.nativeElement.value = "";
+      alert("solution cannot be empty!");
+    } else {
+      this.showSolveArea = false;
+      let data = {
+        bugId: this.currentBug,
+        solution: this.solution.nativeElement.value
+      };
+      this.solution.nativeElement.value = "";
+      this.currentBug = "";
+      this.api.submitSolution(data).subscribe((response: any) => {
+        console.log(response);
+        this.ngOnInit();
+      });
+    }
+  }
+
+  cancelSolution() {
+    this.currentBug = "";
+    this.showSolveArea = false;
+    this.solution.nativeElement.value = "";
+  }
+
+  ViewSolution(bug) {
+    this.currentBug = bug._id;
+    this.viewSolution = true;
+    setTimeout(() => {
+      this.viewSolutionCode.nativeElement.value = bug.solution;
+    }, 10);
+  }
+
+  closeSolution() {
+    this.currentBug = "";
+    this.viewSolutionCode.nativeElement.value = "";
+    this.viewSolution = false;
   }
 }
