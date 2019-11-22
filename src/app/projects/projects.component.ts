@@ -17,6 +17,9 @@ export class ProjectsComponent implements OnInit {
   userList: any[] = [];
   selectedUser: any;
   message: any = "";
+  updateMap = new Map();
+
+  fakes: any[] = [1, 2, 3, 4, 5, 6, 7];
   constructor(private api: ApiService, private router: Router) {}
 
   ngOnInit() {
@@ -78,9 +81,12 @@ export class ProjectsComponent implements OnInit {
     });
   }
 
-  AssignDev() {}
+  AssignDev(bug) {}
 
-  editBug(bug) {}
+  editBug(bug, id) {
+    this.updateMap.set(id, true);
+    console.log(this.updateMap.get(id));
+  }
 
   ArchiveBug(bug) {
     let data = {
@@ -93,5 +99,26 @@ export class ProjectsComponent implements OnInit {
         this.ngOnInit();
       });
     }
+  }
+
+  updateBug(bugId, id, title, subtitle, priority, status, deadline) {
+    let data = {
+      bugId,
+      title,
+      subtitle,
+      priority,
+      status,
+      screenShot: "",
+      deadline
+    };
+    this.api.updateBug(data).subscribe((response: any) => {
+      console.log(response);
+      this.updateMap.delete(id);
+      this.ngOnInit();
+    });
+  }
+
+  cancel(id) {
+    this.updateMap.delete(id);
   }
 }

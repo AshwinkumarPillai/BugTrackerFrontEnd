@@ -66,7 +66,10 @@ export class CreateBugComponent implements OnInit {
   }
 
   addDev(user, id) {
-    if (this.devs.get(id)) this.devs.delete(id);
-    else this.devs.set(id, user);
+    if (this.devs.get(id)) {
+      this.devs.delete(id);
+    } else {
+      this.devs.set(id, user);
+    }
   }
 }

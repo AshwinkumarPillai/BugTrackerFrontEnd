@@ -30,3 +30,46 @@
     }
   }
 }
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td,
+th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+td {
+  input,
+  select {
+    margin: 0;
+    border: none;
+    pointer-events: none;
+  }
+}
+
+.devsColumn {
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.actions {
+  text-align: center;
+}
+
+.update {
+  td {
+    input,
+    select {
+      border: 0.5px solid black;
+      pointer-events: all;
+    }
+  }
+}

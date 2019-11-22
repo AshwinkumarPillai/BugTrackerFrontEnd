@@ -13,7 +13,7 @@
 
 <div *ngIf="bugs.length == 0">No new bugs</div>
 <button (click)="createBug()">Create Bug</button>
-<div *ngFor="let bug of bugs" class="bug" [ngClass]="{archived: bug.archived}">
+<!-- <div *ngFor="let bug of bugs" class="bug">
   <h5>{{bug.title}}</h5>
   <h6>{{bug.subtitle}}</h6>
   <span><b>Priority</b> <br>{{bug.priority}}</span>
@@ -29,4 +29,61 @@
   <button (click)=AssignDev()>Assign/Remove Dev</button>
   <button (click)="editBug(bug)">Edit</button>
   <button (click)="ArchiveBug(bug)">Archive</button>
-</div>
+</div> -->
+<br><br>
+
+<table>
+  <tr>
+    <th>No.</th>
+    <th>Title</th>
+    <th>Subtitle</th>
+    <th>Priority</th>
+    <th>Status</th>
+    <th>Deadline</th>
+    <th>Devs</th>
+    <th class="actions">Assign Dev</th>
+    <th class="actions">Solve</th>
+    <th class="actions">Edit</th>
+    <th class="actions">Archive</th>
+  </tr>
+  <tr *ngFor="let bug of bugs;let i=index" [ngClass]="{update:updateMap.get(i)}">
+    <td>{{i+1}}.</td>
+    <td><input type="text" value="{{bug.title}}" #bugTitle></td>
+    <td>
+      <span *ngIf="!bug.subtitle && !updateMap.get(i)">---</span>
+      <input type="text" value="{{bug.subtitle}}" #bugsubTitle>
+    </td>
+    <td>
+      <select name="" id="" #bugPriority>
+        <option value="" selected disabled hidden>{{bug.priority}}</option>
+        <option value="Low">Low</option>
+        <option value="Moderate">Moderate</option>
+        <option value="High">High</option>
+        <option value="Critical">Critical</option>
+      </select>
+    </td>
+    <td>
+      <select name="" id="" #bugStatus>
+        <option value="" selected disabled hidden>{{bug.status}}</option>
+        <option value="open">open</option>
+        <option value="closed">closed</option>
+      </select>
+    </td>
+    <td><input type="date" value="{{bug.deadline.split('T')[0]}}" #bugDeadline></td>
+    <td class="devsColumn">
+      <span *ngFor="let dev of bug.assignedDev">
+        {{dev.userId.name}}
+        <span *ngIf="bug.assignedDev.length >1">,</span>
+      </span>
+    </td>
+    <td class="actions"><button (click)=AssignDev(bug)>Assign Dev</button></td>
+    <td class="actions"><button>Solve</button></td>
+    <td class="actions">
+      <button *ngIf="updateMap.get(i)"
+        (click)="updateBug(bug._id,i,bugTitle.value, bugsubTitle.value,bugPriority.selectedOptions[0].text,bugStatus.selectedOptions[0].text,bugDeadline.value)">Update</button>
+      <button *ngIf="updateMap.get(i)" (click)="cancel(i)">Cancel</button>
+      <button (click)="editBug(bug, i)" *ngIf="!updateMap.get(i)">Edit</button>
+    </td>
+    <td class="actions"><button (click)="ArchiveBug(bug)">Archive</button></td>
+  </tr>
+</table>
