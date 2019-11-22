@@ -1,0 +1,31 @@
+.devList {
+  width: 20vw;
+  border: 1px solid black;
+  cursor: pointer;
+  text-align: center;
+
+  &:hover {
+    transform: scale(1.02);
+    background: rgba(#0abde3, 0.6);
+  }
+
+  h5,
+  p {
+    margin: 0;
+    padding: 0;
+    margin-top: 1vh;
+  }
+
+  p {
+    color: grey;
+    margin-bottom: 1vh;
+  }
+}
+
+.selectedDev {
+  background: #ff9f43;
+
+  &:hover {
+    background: rgba(#ff9f43, 0.6);
+  }
+}

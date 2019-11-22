@@ -7,12 +7,19 @@
   <option value="Critical">Critical</option>
 </select><br>
 <input type="date" #deadline><br>
-<select name="" id="" #select (change)="watch($event)">
+<select name="" id="" #select (change)="setWatch($event)">
   <option value="0">dont watch</option>
   <option value="1">watch</option>
 </select><br><br>
-<div *ngIf="dev.length > 1">Assign Developer:</div>
-<div *ngIf="dev.length < 1">You don't have any teammates yet!</div>
+<div *ngIf="users.length !== 0">
+  <p>Assign Developer:</p>
+  <div class="devList" *ngFor="let user of users;let i=index" (click)="addDev(user,index)"
+    [ngClass]="{selectedDev: devs.get(id)}">
+    <h5>{{user.userId.name}}</h5>
+    <p>{{user.role}}</p>
+  </div>
+</div>
+<div *ngIf="users.length === 0">You don't have any teammates yet!</div>
 
 <br><br>
 <button (click)="create(title.value,subtitle.value,deadline.value,select)">Create</button>

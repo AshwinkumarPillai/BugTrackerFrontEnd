@@ -11,3 +11,22 @@
 .mainUserInput {
   width: 50vw;
 }
+
+.bug {
+  margin-top: 2vh;
+  border: 1px solid black;
+  h5,
+  h6 {
+    margin: 0;
+    padding: 10px 0px 0px 10px;
+  }
+  span {
+    display: inline-block;
+    margin: 10px 10px;
+  }
+  select {
+    option {
+      color: #222f3e !important;
+    }
+  }
+}

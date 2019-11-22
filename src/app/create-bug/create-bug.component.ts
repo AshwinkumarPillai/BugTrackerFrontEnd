@@ -8,10 +8,11 @@ import { ApiService } from "../services/api.service";
 })
 export class CreateBugComponent implements OnInit {
   project: any;
-  dev: any[] = [];
-  // users: any[] = [];
+  users: any[] = [];
   priority: any = "Low";
   watch: number = 0;
+  devs = new Map();
+
   constructor(private api: ApiService) {}
 
   ngOnInit() {
@@ -21,12 +22,9 @@ export class CreateBugComponent implements OnInit {
       projectId
     };
     this.api.getAllUsers(data).subscribe((response: any) => {
-      console.log(response);
       if (response.users.length > 1) {
-        this.dev = response.users.map(obj => {
-          if (obj.role !== "owner") {
-            return obj;
-          }
+        response.users.forEach(obj => {
+          if (obj.role !== "owner") this.users.push(obj);
         });
       }
     });
@@ -46,6 +44,10 @@ export class CreateBugComponent implements OnInit {
     if (!title) {
       alert("Please enter title!");
     } else {
+      let selectedDevs = [];
+      this.devs.forEach(val => {
+        selectedDevs.push(val.userId._id);
+      });
       let data = {
         projectId: JSON.parse(localStorage.getItem("projectData")).projectId,
         title,
@@ -54,10 +56,17 @@ export class CreateBugComponent implements OnInit {
         priority: this.priority,
         screenShot: "",
         deadline,
-        assignedDev: this.dev,
+        assignedDev: selectedDevs,
         watch: this.watch
       };
-      console.log(data);
+      this.api.registerBug(data).subscribe((response: any) => {
+        console.log(response);
+      });
     }
+  }
+
+  addDev(user, id) {
+    if (this.devs.get(id)) this.devs.delete(id);
+    else this.devs.set(id, user);
   }
 }

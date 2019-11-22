@@ -10,8 +10,23 @@
   {{user.name}} &nbsp;&nbsp;&nbsp;{{user.email}}
 </div>
 <hr>
-<div *ngIf="bugs.length == 0">No bugs Yet</div>
+
+<div *ngIf="bugs.length == 0">No new bugs</div>
 <button (click)="createBug()">Create Bug</button>
-<div *ngFor="let bug of bugs">
-  hello
+<div *ngFor="let bug of bugs" class="bug" [ngClass]="{archived: bug.archived}">
+  <h5>{{bug.title}}</h5>
+  <h6>{{bug.subtitle}}</h6>
+  <span><b>Priority</b> <br>{{bug.priority}}</span>
+  <span><b>Status</b> <br>{{bug.status}}</span>
+  <span><b>DeadLine:</b> <br>{{bug.deadline.split('T')[0]}}</span>
+  <select name="" id="">
+    <option value="none" selected disabled hidden>Devs</option>
+    <option value="" *ngFor="let dev of bug.assignedDev" disabled>{{dev.userId.name}}</option>
+  </select>
+  <span *ngIf="bug.solvedBy"><b>Solved By</b> <br>{{bug.solvedBy}}</span>
+
+  <br>
+  <button (click)=AssignDev()>Assign/Remove Dev</button>
+  <button (click)="editBug(bug)">Edit</button>
+  <button (click)="ArchiveBug(bug)">Archive</button>
 </div>

@@ -49,6 +49,8 @@ export class ProjectsComponent implements OnInit {
         return user.name.match(regex) || user.email.match(regex);
       });
       // console.log(this.userList);
+    } else {
+      this.userList = [];
     }
   }
 
@@ -74,5 +76,22 @@ export class ProjectsComponent implements OnInit {
       this.message = response.message;
       this.input.nativeElement.value = "";
     });
+  }
+
+  AssignDev() {}
+
+  editBug(bug) {}
+
+  ArchiveBug(bug) {
+    let data = {
+      bugId: bug._id
+    };
+    let confirmArchive = confirm("Are you sure you want to archive this bug?");
+    if (confirmArchive) {
+      this.api.archiveBug(data).subscribe((response: any) => {
+        console.log(response);
+        this.ngOnInit();
+      });
+    }
   }
 }
