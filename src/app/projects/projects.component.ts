@@ -18,8 +18,10 @@ export class ProjectsComponent implements OnInit {
   selectedUser: any;
   message: any = "";
   updateMap = new Map();
+  advcalled: boolean = false;
+  assignDevMaps = new Map();
+  currentBug: any;
 
-  fakes: any[] = [1, 2, 3, 4, 5, 6, 7];
   constructor(private api: ApiService, private router: Router) {}
 
   ngOnInit() {
@@ -28,6 +30,7 @@ export class ProjectsComponent implements OnInit {
       this.project = response.project;
       this.users = response.users;
       this.bugs = response.bugs;
+      console.log(this.users);
     });
   }
 
@@ -81,11 +84,17 @@ export class ProjectsComponent implements OnInit {
     });
   }
 
-  AssignDev(bug) {}
+  AssignDev(bug) {
+    this.advcalled = true;
+    this.currentBug = bug._id;
+    console.log(bug);
+    bug.assignedDev.forEach(user => {
+      this.assignDevMaps.set(user.userId._id, user);
+    });
+  }
 
   editBug(bug, id) {
     this.updateMap.set(id, true);
-    console.log(this.updateMap.get(id));
   }
 
   ArchiveBug(bug) {
@@ -120,5 +129,33 @@ export class ProjectsComponent implements OnInit {
 
   cancel(id) {
     this.updateMap.delete(id);
+  }
+
+  selectDev(user, id) {
+    if (this.assignDevMaps.get(id)) {
+      this.assignDevMaps.delete(id);
+    } else {
+      this.assignDevMaps.set(id, user);
+    }
+  }
+
+  assignBugToDevs() {
+    let dev = [];
+    this.assignDevMaps.forEach(user => {
+      dev.push(user.userId._id);
+    });
+    let data = {
+      bugId: this.currentBug,
+      dev
+    };
+
+    this.advcalled = false;
+    this.currentBug = "";
+    this.assignDevMaps.clear();
+
+    this.api.assignBugToDevs(data).subscribe((response: any) => {
+      console.log(response);
+      this.ngOnInit();
+    });
   }
 }

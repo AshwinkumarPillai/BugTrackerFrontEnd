@@ -48,8 +48,8 @@
   </tr>
   <tr *ngFor="let bug of bugs;let i=index" [ngClass]="{update:updateMap.get(i)}">
     <td>{{i+1}}.</td>
-    <td><input type="text" value="{{bug.title}}" #bugTitle></td>
-    <td>
+    <td class="bug_title"><input type="text" value="{{bug.title}}" #bugTitle></td>
+    <td class="bug_subTitle">
       <span *ngIf="!bug.subtitle && !updateMap.get(i)">---</span>
       <input type="text" value="{{bug.subtitle}}" #bugsubTitle>
     </td>
@@ -71,9 +71,9 @@
     </td>
     <td><input type="date" value="{{bug.deadline.split('T')[0]}}" #bugDeadline></td>
     <td class="devsColumn">
-      <span *ngFor="let dev of bug.assignedDev">
+      <span *ngFor="let dev of bug.assignedDev;let k=index">
         {{dev.userId.name}}
-        <span *ngIf="bug.assignedDev.length >1">,</span>
+        <span *ngIf="bug.assignedDev.length >1 && !(bug.assignedDev.length-1 === k)">,</span>
       </span>
     </td>
     <td class="actions"><button (click)=AssignDev(bug)>Assign Dev</button></td>
@@ -87,3 +87,17 @@
     <td class="actions"><button (click)="ArchiveBug(bug)">Archive</button></td>
   </tr>
 </table>
+
+<br><br><br>
+
+<div *ngIf="advcalled" class="assignDevModal">
+  <div *ngFor="let user of users;let n=index">
+    <div *ngIf="user.role!=='owner'" class="assignDevModal_dev"
+      [ngClass]="{selectedDevs: assignDevMaps.get(user.userId._id)}" (click)="selectDev(user, user.userId._id)">
+      <p>{{user.userId.name}}</p>
+      <p>{{user.userId.email}}</p>
+    </div>
+  </div>
+  <br><br>
+  <button (click)="assignBugToDevs()">Assign</button>
+</div>
