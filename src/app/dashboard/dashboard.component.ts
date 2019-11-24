@@ -36,4 +36,9 @@ export class DashboardComponent implements OnInit {
     localStorage.setItem("projectData", JSON.stringify(data));
     this.router.navigate(["/project/"]);
   }
+
+  // signOut() {
+  //   localStorage
+  //   .getItem()
+  // }
 }

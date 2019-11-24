@@ -1,1 +1,20 @@
-<router-outlet></router-outlet>
+<div class="container">
+    <div class="sidemenu">
+        <h3>Ash Bug tracker</h3>
+        <ul>
+            <li routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                Dashboard
+            </li>
+            <li routerLink="/profile" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                Profile
+            </li>
+
+            <li>Coming Soon</li>
+            <li>Coming Soon</li>
+            <li>Coming Soon</li>
+        </ul>
+    </div>
+    <div class="main">
+        <router-outlet></router-outlet>
+    </div>
+</div>

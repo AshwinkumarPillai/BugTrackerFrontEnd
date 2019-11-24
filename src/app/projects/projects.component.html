@@ -1,7 +1,13 @@
-<h1 *ngIf="project">{{project.title}}</h1>
-<button (click)="canSearch()" *ngIf="!search">Add member</button><br>
-<div *ngIf="search">
-  <input type="text" placeholder="email" (keyup)="searchUser($event)" #selectUser class="mainUserInput">
+<div class="header">
+  <div class="header_title">
+    <h1 *ngIf="project">{{project.title}}</h1>
+  </div>
+  <div class="header_actions">
+    <button (click)="canSearch()" *ngIf="!search">Add member</button><br>
+  </div>
+</div>
+<div *ngIf="search" class="search">
+  <input type="text" placeholder="email" (keyup)="searchUser($event)" #selectUser class="search_input">
   <button (click)="addMember()">Add</button>
   <div *ngIf="message" style="font-family: sans-serif; color:red;"><i>{{message}}</i></div>
 </div>
@@ -11,28 +17,12 @@
 </div>
 <hr>
 
-<div *ngIf="bugs.length == 0">No new bugs</div>
-<button (click)="createBug()">Create Bug</button>
-<!-- <div *ngFor="let bug of bugs" class="bug">
-  <h5>{{bug.title}}</h5>
-  <h6>{{bug.subtitle}}</h6>
-  <span><b>Priority</b> <br>{{bug.priority}}</span>
-  <span><b>Status</b> <br>{{bug.status}}</span>
-  <span><b>DeadLine:</b> <br>{{bug.deadline.split('T')[0]}}</span>
-  <select name="" id="">
-    <option value="none" selected disabled hidden>Devs</option>
-    <option value="" *ngFor="let dev of bug.assignedDev" disabled>{{dev.userId.name}}</option>
-  </select>
-  <span *ngIf="bug.solvedBy"><b>Solved By</b> <br>{{bug.solvedBy}}</span>
-
-  <br>
-  <button (click)=AssignDev()>Assign/Remove Dev</button>
-  <button (click)="editBug(bug)">Edit</button>
-  <button (click)="ArchiveBug(bug)">Archive</button>
-</div> -->
+<button (click)="createBug()" class="createBug">Add a new Bug</button>
 <br><br>
 
-<table>
+<div *ngIf="bugs.length == 0">No new bugs</div>
+
+<table *ngIf="bugs.length !== 0">
   <tr>
     <th>No.</th>
     <th>Title</th>
@@ -83,35 +73,40 @@
     <td class="actions"><button (click)=AssignDev(bug)>Assign Dev</button></td>
     <td class="actions">
       <button *ngIf="updateMap.get(i)"
-        (click)="updateBug(bug._id,i,bugTitle.value, bugsubTitle.value,bugPriority.selectedOptions[0].text,bugStatus.selectedOptions[0].text,bugDeadline.value)">Update</button>
-      <button *ngIf="updateMap.get(i)" (click)="cancel(i)">Cancel</button>
+        (click)="updateBug(bug._id,i,bugTitle.value, bugsubTitle.value,bugPriority.selectedOptions[0].text,bugStatus.selectedOptions[0].text,bugDeadline.value)"
+        class="actions_update">Update</button>
+      <button *ngIf="updateMap.get(i)" (click)="cancel(i)" class="actions_cancel">Cancel</button>
       <button (click)="editBug(bug, i)" *ngIf="!updateMap.get(i)">Edit</button>
     </td>
     <td class="actions"><button (click)="ArchiveBug(bug)">Archive</button></td>
   </tr>
 </table>
 
-<br><br><br>
+
 
 <div *ngIf="advcalled" class="assignDevModal">
-  <div *ngFor="let user of users;let n=index">
-    <div *ngIf="user.role!=='owner'" class="assignDevModal_dev"
+  <div class="assignDevModal_container">
+
+    <div *ngFor="let user of bugUsers;let n=index" class="assignDevModal_dev"
       [ngClass]="{selectedDevs: assignDevMaps.get(user.userId._id)}" (click)="selectDev(user, user.userId._id)">
-      <p>{{user.userId.name}}</p>
-      <p>{{user.userId.email}}</p>
+      <p class="assignDevModal_dev_name">{{user.userId.name}}</p>
+      <p class="assignDevModal_dev_email">{{user.userId.email}}</p>
     </div>
   </div>
-  <br><br>
-  <button (click)="assignBugToDevs()">Assign</button>
+  <button (click)="assignBugToDevs()" class="assignDevModal_assign">Assign</button>
+  <button (click)="CanceldevAssign()" class="assignDevModal_cancel">Cancel</button>
 </div>
 
-<div *ngIf="showSolveArea" style="border: 1px solid black; padding: 10px;">
+<div *ngIf="advcalled || showSolveArea || viewSolution" class="assignDevModal_backdrop"></div>
+
+<div *ngIf="showSolveArea" class="ViewSolution">
   <textarea name="" id="" cols="30" rows="10" #solution></textarea>
   <button (click)="submitSolution()">Submit</button>
   <button (click)="cancelSolution()">Cancel</button>
 </div>
 
-<div *ngIf="viewSolution" style="border: 1px solid black; padding: 10px;">
+<div *ngIf="viewSolution" class="ViewSolution">
   <textarea name="" id="" cols="30" rows="10" #viewSolutionCode></textarea>
+  <br>
   <button (click)="closeSolution()">Close</button>
 </div>

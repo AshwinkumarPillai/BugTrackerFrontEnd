@@ -1,13 +1,41 @@
-.project {
-  border: 1px solid black;
-  width: 50vw;
-  margin-bottom: 2vh;
-  box-shadow: 0px 0px 10px #d3d3d3;
+.Title {
+  color: #0294bd;
+}
+.addp {
+  margin: 0 0 2vh 0;
+  padding: 0;
+  color: grey;
+  color: #d3d3d3;
+  font-style: italic;
+}
+.AddInp {
   padding: 10px;
-  transition: 0.3s;
+  border: 1px solid black;
+  width: 30vw;
+  border-color: #0294bd;
+}
+
+.project {
+  &_container {
+    margin-top: 2vh;
+    padding-left: 2vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 2vh;
+  }
+
+  background: #ffca28;
+  color: #2f3640;
+  // border: 1px solid black;
+  // border-radius: 20px;
+  box-shadow: 5px 5px 10px #d3d3d3;
+  padding: 10px;
+  transition: 0.2s;
   cursor: pointer;
 
   &:hover {
-    transform: scale(1.02);
+    // background: rgba(#ffca28, 0.8);
+    transform: scale(1.01);
+    box-shadow: 5px 5px 5px grey;
   }
 }

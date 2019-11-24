@@ -26,6 +26,7 @@ export class ProjectsComponent implements OnInit {
   currentBug: any;
   showSolveArea: boolean = false;
   viewSolution: boolean = false;
+  bugUsers: any[] = [];
 
   constructor(private api: ApiService, private router: Router) {}
 
@@ -35,7 +36,11 @@ export class ProjectsComponent implements OnInit {
       this.project = response.project;
       this.users = response.users;
       this.bugs = response.bugs;
-      console.log(this.users);
+      this.users.forEach(user => {
+        if (user.role !== "owner") {
+          this.bugUsers.push(user);
+        }
+      });
     });
   }
 
@@ -162,6 +167,12 @@ export class ProjectsComponent implements OnInit {
       console.log(response);
       this.ngOnInit();
     });
+  }
+
+  CanceldevAssign() {
+    this.currentBug = "";
+    this.assignDevMaps.clear();
+    this.advcalled = false;
   }
 
   solveBug(bug) {
