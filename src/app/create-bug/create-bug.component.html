@@ -1,25 +1,56 @@
-<input type="text" placeholder="title" #title><br>
-<input type="text" placeholder="sub-title" #subtitle><br>
-<select name="" id="" (change)="setPriority($event)">
-  <option value="Low">Low</option>
-  <option value="Moderate">Moderate</option>
-  <option value="High">High</option>
-  <option value="Critical">Critical</option>
-</select><br>
-<input type="date" #deadline><br>
-<select name="" id="" #select (change)="setWatch($event)">
-  <option value="0">dont watch</option>
-  <option value="1">watch</option>
-</select><br><br>
-<div *ngIf="users.length !== 0">
-  <p>Assign Developer:</p>
-  <div class="devList" *ngFor="let user of users;let i=index" (click)="addDev(user,i)"
-    [ngClass]="{selectedDev: devs.get(i)}">
-    <h5>{{user.userId.name}}</h5>
-    <p>{{user.role}}</p>
+<div class="form">
+  <div>
+    <label for="title">Title: </label>
+  </div>
+  <div>
+    <input type="text" placeholder="Null Pointer Exception" name="title" #title>
+  </div>
+  <div>
+    <label for="subTitle">Sub Title:</label>
+  </div>
+  <div>
+    <input type="text" placeholder="This one eexception takes all lives" name="subTitle" #subtitle>
+  </div>
+  <div>
+    <label for="">Priority: </label>
+  </div>
+  <div>
+    <select name="" id="" (change)="setPriority($event)">
+      <option value="Low">Low</option>
+      <option value="Moderate">Moderate</option>
+      <option value="High">High</option>
+      <option value="Critical">Critical</option>
+    </select>
+  </div>
+  <div>
+    <label for="">Deadline</label>
+  </div>
+  <div>
+    <input type="date" #deadline>
+  </div>
+  <div>
+    <label for="">
+      Watch:
+    </label>
+  </div>
+  <div>
+    <select name="" id="" #select (change)="setWatch($event)">
+      <option value="0">dont watch</option>
+      <option value="1">watch</option>
+    </select>
+  </div>
+</div>
+
+<div *ngIf="users.length !== 0" class="devList">
+  <p style="color: #0294bd;">Assign Developer:</p>
+  <div class="devList_container">
+    <div class="devList_devs" *ngFor="let user of users;let i=index" (click)="addDev(user,i)"
+      [ngClass]="{selectedDev: devs.get(i)}">
+      <h5>{{user.userId.name}}</h5>
+      <p>{{user.role}}</p>
+    </div>
   </div>
 </div>
 <div *ngIf="users.length === 0">You don't have any teammates yet!</div>
 
-<br><br>
-<button (click)="create(title.value,subtitle.value,deadline.value,select)">Create</button>
+<button (click)="create(title.value,subtitle.value,deadline.value,select)" class="createBtn">Create</button>

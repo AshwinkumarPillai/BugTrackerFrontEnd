@@ -15,6 +15,14 @@
   border-color: #0294bd;
 }
 
+.createBtn {
+  cursor: pointer;
+  transition: 0.2s;
+  &:hover {
+    box-shadow: 5px 5px 10px #d3d3d3;
+  }
+}
+
 .project {
   &_container {
     margin-top: 2vh;

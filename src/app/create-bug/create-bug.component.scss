@@ -1,31 +1,87 @@
+$margin-required: 2vh;
+.form {
+  margin: $margin-required;
+  display: grid;
+  grid-template-columns: 1fr 6fr;
+  grid-row-gap: 20px;
+
+  div {
+    display: flex;
+    align-items: center;
+  }
+  label {
+    color: #0294bd;
+  }
+  input {
+    width: 50vw;
+    padding: 10px;
+    // margin: 10px;
+  }
+  input[type="date"] {
+    width: 10vw;
+  }
+  select {
+    padding: 10px;
+  }
+}
+
 .devList {
-  width: 20vw;
-  border: 1px solid black;
-  cursor: pointer;
-  text-align: center;
+  margin: 5vh $margin-required;
+  border: 1px solid transparent;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px #d3d3d3;
+  // background: #badc58;
 
-  &:hover {
-    transform: scale(1.02);
-    background: rgba(#0abde3, 0.6);
+  &_container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-gap: 10px;
   }
 
-  h5,
-  p {
-    margin: 0;
-    padding: 0;
-    margin-top: 1vh;
-  }
+  &_devs {
+    border: 0.5px solid #0294bd;
+    // border: 1px solid transparent;
+    background: white;
+    padding: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px #d3d3d3;
 
-  p {
-    color: grey;
-    margin-bottom: 1vh;
+    &:hover {
+      background: rgba(orange, 0.7);
+      color: white;
+      border-color: transparent;
+    }
+
+    h5,
+    p {
+      margin: 0;
+    }
+
+    p {
+      color: grey;
+    }
   }
 }
 
 .selectedDev {
-  background: #ff9f43;
+  background: green;
+  color: white;
+  border-color: transparent;
+  // color: black;
+  p {
+    color: black;
+  }
 
   &:hover {
-    background: rgba(#ff9f43, 0.6);
+    background: rgba(green, 0.6);
+    border-color: transparent;
   }
+}
+
+.createBtn {
+  margin: $margin-required;
+  width: 10vw;
 }

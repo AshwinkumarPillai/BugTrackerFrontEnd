@@ -7,15 +7,6 @@
   &_actions {
     display: flex;
     align-items: center;
-
-    button {
-      cursor: pointer;
-      transition: 0.2s;
-      &:hover {
-        box-shadow: 1px 1px 20px #d3d3d3;
-        transform: scale(1.01);
-      }
-    }
   }
 }
 
@@ -40,15 +31,6 @@
 
   &:hover {
     background: lightcyan;
-  }
-}
-
-.createBug {
-  cursor: pointer;
-  transition: 0.2s;
-  &:hover {
-    box-shadow: 0px 0px 5px #d3d3d3;
-    transform: scale(1.02);
   }
 }
 
@@ -185,13 +167,7 @@ td {
 
   button {
     margin-right: 10px;
-    cursor: pointer;
     transition: 0.2s;
-
-    &:hover {
-      transform: scale(1.01);
-      box-shadow: 0px 0px 5px #d3d3d3;
-    }
   }
 
   &_backdrop {
@@ -234,15 +210,5 @@ td {
     height: 50vh;
     resize: none;
     overflow-y: scroll;
-  }
-
-  button {
-    cursor: pointer;
-    transition: 0.3s;
-
-    &:hover {
-      box-shadow: 0px 0px 5px #d3d3d3;
-      transform: scale(1.01);
-    }
   }
 }
