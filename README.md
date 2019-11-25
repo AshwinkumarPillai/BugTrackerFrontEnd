@@ -15,6 +15,8 @@ Devs can:
 
 ## Features :
 
-1. HttpClient Interceptor implementation.
+1. HttpClient Interceptor implementation for sending tokens via header.
+2. Angular Routing.
+3. Router Guards (Coming soon).
 
 ### Please report any bugs if you find any 😉.
