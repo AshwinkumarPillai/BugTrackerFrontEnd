@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ApiService } from "../services/api.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-create-bug",
@@ -13,7 +14,7 @@ export class CreateBugComponent implements OnInit {
   watch: number = 0;
   devs = new Map();
 
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService, private router: Router) {}
 
   ngOnInit() {
     let lcl = JSON.parse(localStorage.getItem("projectData"));
@@ -61,6 +62,8 @@ export class CreateBugComponent implements OnInit {
       };
       this.api.registerBug(data).subscribe((response: any) => {
         console.log(response);
+        alert("Bug registered successfully!");
+        this.router.navigate(["/project/"]);
       });
     }
   }
