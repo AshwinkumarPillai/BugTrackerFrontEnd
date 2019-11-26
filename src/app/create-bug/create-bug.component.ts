@@ -17,6 +17,9 @@ export class CreateBugComponent implements OnInit {
   constructor(private api: ApiService, private router: Router) {}
 
   ngOnInit() {
+    if (!localStorage.getItem("currentUser")) {
+      this.router.navigate(["/login/"]);
+    }
     let lcl = JSON.parse(localStorage.getItem("projectData"));
     const projectId = lcl.projectId;
     let data = {

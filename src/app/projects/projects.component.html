@@ -3,12 +3,14 @@
     <h1 *ngIf="project">{{project.title}}</h1>
   </div>
   <div class="header_actions">
-    <button (click)="canSearch()" *ngIf="!search">Add member</button><br>
+    <button (click)="canSearch()" *ngIf="!search">Add member</button>
+    <!-- <button (click)="dummy()" *ngIf="!search">Remove Member</button> -->
   </div>
 </div>
 <div *ngIf="search" class="search">
   <input type="text" placeholder="email" (keyup)="searchUser($event)" #selectUser class="search_input">
-  <button (click)="addMember()">Add</button>
+  <button (click)="addMember()">Add</button>&nbsp;&nbsp;
+  <button (click)="closeSearch()">Cancel</button>
   <div *ngIf="message" style="font-family: sans-serif; color:red;"><i>{{message}}</i></div>
 </div>
 
@@ -59,7 +61,9 @@
         <option value="closed">closed</option>
       </select>
     </td>
-    <td><input type="date" value="{{bug.deadline.split('T')[0]}}" #bugDeadline></td>
+    <td>
+      <input type="date" value="{{bug.deadline.split('T')[0]}}" #bugDeadline>
+    </td>
     <td class="devsColumn">
       <span *ngFor="let dev of bug.assignedDev;let k=index">
         {{dev.userId.name}}

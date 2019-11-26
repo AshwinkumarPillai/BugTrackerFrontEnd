@@ -3,7 +3,11 @@
   display: grid;
   grid-template-columns: 1fr 5fr;
   .sidemenu {
+    position: fixed;
+    top: 0;
+    left: 0;
     height: 100vh;
+    padding: 10px;
     border-right: 1px solid #d3d3d3;
     // background: #ffa200;
     background: #0294bd;
@@ -25,6 +29,7 @@
         cursor: pointer;
         padding: 10px;
         list-style: none;
+        width: 13vw;
         background: #7ed6df;
         color: white;
 
@@ -40,6 +45,8 @@
   .main {
     // overflow-x: hidden;
     padding: 1vh;
+    // padding-left: ;
+    // width: 80vw;
     // background: ;
     // border: 1px solid black;
   }

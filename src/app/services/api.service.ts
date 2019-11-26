@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
-import { Headers, Http, Response } from "@angular/http";
+import { Response } from "@angular/http";
 import "rxjs/Rx";
-import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 
 // @Injectable({
@@ -15,7 +14,7 @@ export class ApiService {
   currentBugs: any;
   currentUsers: any;
 
-  constructor(private http: Http, private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) {}
 
   // User Routes
   registerUser(data) {

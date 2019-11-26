@@ -184,10 +184,10 @@ td {
 
 .selectedDevs {
   background: #3498db;
-  background: #2ecc71;
+  background: #fbc531;
   color: white;
   &:hover {
-    background: rgba(#0294bd, 0.7);
+    background: rgba(#fbc531, 0.7);
   }
 }
 
@@ -211,4 +211,8 @@ td {
     resize: none;
     overflow-y: scroll;
   }
+}
+
+.createBug {
+  margin: 3vh 0;
 }

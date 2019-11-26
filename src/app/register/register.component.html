@@ -1,8 +1,10 @@
-<input type="text" placeholder="name" #name><br>
-<input type="email" placeholder="email" #email><br>
-<input type="password" placeholder="password" #pass><br>
-<input type="text" placeholder="contact" #contact><br>
-<input type="text" placeholder="designation" #designation><br>
-<button (click)="register(name,email,pass,contact,designation)">Register</button>
-<br>
-<h1 *ngIf="message">{{message}}</h1>
+<div class="form">
+    <input type="text" placeholder="name" #name><br>
+    <input type="email" placeholder="email" #email><br>
+    <input type="password" placeholder="password" #pass><br>
+    <input type="text" placeholder="contact" #contact><br>
+    <input type="text" placeholder="designation" #designation><br>
+    <button (click)="register(name,email,pass,contact,designation)">Register</button>
+    <br>
+    <h1 *ngIf="message">{{message}}</h1>
+</div>

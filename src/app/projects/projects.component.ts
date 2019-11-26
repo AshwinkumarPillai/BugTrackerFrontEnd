@@ -31,6 +31,10 @@ export class ProjectsComponent implements OnInit {
   constructor(private api: ApiService, private router: Router) {}
 
   ngOnInit() {
+    if (!localStorage.getItem("currentUser")) {
+      this.router.navigate(["/login/"]);
+    }
+
     let data = JSON.parse(localStorage.getItem("projectData"));
     this.api.getOneProject(data).subscribe((response: any) => {
       this.project = response.project;
@@ -54,6 +58,10 @@ export class ProjectsComponent implements OnInit {
     this.api.getEveryUser().subscribe((response: any) => {
       this.Allusers = response.Allusers;
     });
+  }
+
+  closeSearch() {
+    this.search = false;
   }
 
   searchUser(element) {
@@ -91,20 +99,42 @@ export class ProjectsComponent implements OnInit {
       console.log(response);
       this.message = response.message;
       this.input.nativeElement.value = "";
-    });
-  }
-
-  AssignDev(bug) {
-    this.advcalled = true;
-    this.currentBug = bug._id;
-    console.log(bug);
-    bug.assignedDev.forEach(user => {
-      this.assignDevMaps.set(user.userId._id, user);
+      if (!response.message) {
+        alert("Added Member Successfully!");
+      }
     });
   }
 
   editBug(bug, id) {
+    this.updateMap.clear();
     this.updateMap.set(id, true);
+  }
+
+  updateBug(bugId, id, title, subtitle, priority, status, deadline) {
+    let data = {
+      bugId,
+      title,
+      subtitle,
+      priority,
+      status,
+      screenShot: "",
+      deadline
+    };
+    console.log(deadline);
+    console.log(data);
+    this.api.updateBug(data).subscribe((response: any) => {
+      console.log(response);
+      this.updateMap.delete(id);
+      this.ngOnInit();
+    });
+  }
+
+  ddchange(h) {
+    console.log(h);
+  }
+
+  cancel(id) {
+    this.updateMap.delete(id);
   }
 
   ArchiveBug(bug) {
@@ -120,25 +150,12 @@ export class ProjectsComponent implements OnInit {
     }
   }
 
-  updateBug(bugId, id, title, subtitle, priority, status, deadline) {
-    let data = {
-      bugId,
-      title,
-      subtitle,
-      priority,
-      status,
-      screenShot: "",
-      deadline
-    };
-    this.api.updateBug(data).subscribe((response: any) => {
-      console.log(response);
-      this.updateMap.delete(id);
-      this.ngOnInit();
+  AssignDev(bug) {
+    this.advcalled = true;
+    this.currentBug = bug._id;
+    bug.assignedDev.forEach(user => {
+      this.assignDevMaps.set(user.userId._id, user);
     });
-  }
-
-  cancel(id) {
-    this.updateMap.delete(id);
   }
 
   selectDev(user, id) {
@@ -165,6 +182,7 @@ export class ProjectsComponent implements OnInit {
 
     this.api.assignBugToDevs(data).subscribe((response: any) => {
       console.log(response);
+      this.bugUsers = [];
       this.ngOnInit();
     });
   }

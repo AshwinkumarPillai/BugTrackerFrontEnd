@@ -4,7 +4,6 @@ import { NgModule } from "@angular/core";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { ProjectsComponent } from "./projects/projects.component";
-import { BugsComponent } from "./bugs/bugs.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { LoginComponent } from "./login/login.component";
 import { RegisterComponent } from "./register/register.component";
@@ -15,14 +14,13 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { UpdateProfileComponent } from "./update-profile/update-profile.component";
 import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { AuthInterceptor } from "./services/auth.interceptor";
-import { CreateBugComponent } from './create-bug/create-bug.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { CreateBugComponent } from "./create-bug/create-bug.component";
+import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     ProjectsComponent,
-    BugsComponent,
     DashboardComponent,
     LoginComponent,
     RegisterComponent,
@@ -30,7 +28,13 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     CreateBugComponent,
     PageNotFoundComponent
   ],
-  imports: [BrowserModule, FormsModule, AppRoutingModule, HttpModule, HttpClientModule],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    AppRoutingModule,
+    HttpModule,
+    HttpClientModule
+  ],
   providers: [
     ApiService,
     {

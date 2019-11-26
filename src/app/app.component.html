@@ -11,9 +11,10 @@
 
             <li>Coming Soon</li>
             <li>Coming Soon</li>
-            <li>Coming Soon</li>
+            <li (click)="logOut()" style="background: red;">Logout</li>
         </ul>
     </div>
+    <div class="FakeDiv" style="color: transparent; background: transparent;z-index: -10000000;">.</div>
     <div class="main">
         <router-outlet></router-outlet>
     </div>
