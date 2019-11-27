@@ -7,6 +7,7 @@ import { DashboardComponent } from "./dashboard/dashboard.component";
 import { CreateBugComponent } from "./create-bug/create-bug.component";
 import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
 import { ProfileComponent } from "./profile/profile.component";
+import { ViewProfileComponent } from "./view-profile/view-profile.component";
 
 const routes: Routes = [
   { path: "", component: DashboardComponent },
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: "dashboard", component: DashboardComponent },
   { path: "profile", component: ProfileComponent },
   { path: "bug/new", component: CreateBugComponent },
+  { path: "viewProfile", component: ViewProfileComponent },
   { path: "**", component: PageNotFoundComponent }
 ];
 

@@ -7,7 +7,7 @@
       <button (click)="canSearch()" *ngIf="!search">Add member</button>
     </div>
     <div class="header_actions_userContainer">
-      <span *ngFor="let user of users">
+      <span *ngFor="let user of users" (click)="viewProfile(user)">
         <b>{{user.userId.name[0]}}</b>
 
         <div class="user_tooltip">

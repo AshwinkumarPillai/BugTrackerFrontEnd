@@ -255,4 +255,9 @@ export class ProjectsComponent implements OnInit {
     this.viewSolutionCode.nativeElement.value = "";
     this.viewSolution = false;
   }
+
+  viewProfile(user) {
+    this.api.viewUserId = user.userId._id;
+    this.router.navigate([`/viewProfile/`]);
+  }
 }

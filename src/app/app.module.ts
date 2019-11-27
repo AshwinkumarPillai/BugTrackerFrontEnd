@@ -17,6 +17,7 @@ import { CreateBugComponent } from "./create-bug/create-bug.component";
 import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
 import { NgxSpinnerModule } from "ngx-spinner";
 import { ProfileComponent } from './profile/profile.component';
+import { ViewProfileComponent } from './view-profile/view-profile.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { ProfileComponent } from './profile/profile.component';
     RegisterComponent,
     CreateBugComponent,
     PageNotFoundComponent,
-    ProfileComponent
+    ProfileComponent,
+    ViewProfileComponent
   ],
   imports: [
     BrowserModule,

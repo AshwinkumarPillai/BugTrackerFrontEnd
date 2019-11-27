@@ -1,0 +1,30 @@
+<div class="profile">
+  <h1>{{user.name}}</h1>
+  <p class="profile_email">Email: {{user.email}}</p>
+  <p>Designation: {{user.designation}}</p>
+  <!-- <span class="profile_letter">{{user.name[0]}}</span> -->
+  <div *ngIf="user.github">
+    Github:
+    <a href="http://{{user.github}}" target="blank">
+      {{user.github}}
+    </a>
+  </div>
+  <div *ngIf="user.twitter">
+    Twitter:
+    <a href="http://{{user.twitter}}" target="blank">
+      {{user.twitter}}
+    </a>
+  </div>
+  <div *ngIf="user.linkedIn">
+    LinkedIn:
+    <a href="http://{{user.linkedIn}}" target="blank">
+      {{user.linkedIn}}
+    </a>
+  </div>
+  <div *ngIf="user.portfolio">
+    Portfolio:
+    <a href="http://{{user.portfolio}}" target="blank">
+      {{user.portfolio}}
+    </a>
+  </div>
+</div>

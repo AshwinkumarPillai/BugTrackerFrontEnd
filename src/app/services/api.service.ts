@@ -13,6 +13,7 @@ export class ApiService {
   currentProject: any;
   currentBugs: any;
   currentUsers: any;
+  viewUserId: any;
 
   constructor(private httpClient: HttpClient) {}
 
@@ -61,6 +62,14 @@ export class ApiService {
   getEveryUser() {
     return this.httpClient
       .post(this.url + "/user/getEveryUser", {})
+      .map((response: Response) => {
+        return response;
+      });
+  }
+
+  viewUserProfile(data) {
+    return this.httpClient
+      .post(this.url + "/user/viewProfile", data)
       .map((response: Response) => {
         return response;
       });
