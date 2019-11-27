@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Input } from "@angular/core";
 import { ApiService } from "../services/api.service";
 import { Router } from "@angular/router";
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: "app-projects",
@@ -28,13 +29,18 @@ export class ProjectsComponent implements OnInit {
   viewSolution: boolean = false;
   bugUsers: any[] = [];
 
-  constructor(private api: ApiService, private router: Router) {}
+  constructor(
+    private api: ApiService,
+    private router: Router,
+    private spinner: NgxSpinnerService
+  ) {}
 
   ngOnInit() {
     if (!localStorage.getItem("currentUser")) {
       this.router.navigate(["/login/"]);
     }
 
+    this.spinner.show();
     let data = JSON.parse(localStorage.getItem("projectData"));
     this.api.getOneProject(data).subscribe((response: any) => {
       this.project = response.project;
@@ -45,6 +51,7 @@ export class ProjectsComponent implements OnInit {
           this.bugUsers.push(user);
         }
       });
+      this.spinner.hide();
     });
   }
 
@@ -89,18 +96,30 @@ export class ProjectsComponent implements OnInit {
   }
 
   addMember() {
+    this.spinner.show();
     const data = {
       projectId: this.project._id,
       newId: this.selectedUser._id,
       role: "dev",
       isNew: true
     };
+
+    // setTimeout(() => {
+    //   alert("Seems like there is no internet Connection");
+    //   this.spinner.hide();
+    // }, 5000);
+
     this.api.addBuddy(data).subscribe((response: any) => {
       console.log(response);
-      this.message = response.message;
-      this.input.nativeElement.value = "";
-      if (!response.message) {
-        alert("Added Member Successfully!");
+      if (response.message) {
+        this.message = response.message;
+        this.input.nativeElement.value = "";
+        this.spinner.hide();
+      } else {
+        this.spinner.hide();
+        this.message = "Added member successfully";
+        this.ngOnInit();
+        // alert("Added Member Successfully!");
       }
     });
   }

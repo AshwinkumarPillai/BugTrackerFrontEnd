@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ApiService } from "../services/api.service";
 import { Router } from "@angular/router";
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: "app-dashboard",
@@ -9,14 +10,20 @@ import { Router } from "@angular/router";
 })
 export class DashboardComponent implements OnInit {
   projects: any[] = [];
-  constructor(private api: ApiService, private router: Router) {}
+  constructor(
+    private api: ApiService,
+    private router: Router,
+    private spinner: NgxSpinnerService
+  ) {}
 
   ngOnInit() {
     if (!localStorage.getItem("currentUser")) {
       this.router.navigate(["/login/"]);
     }
+    this.spinner.show();
     this.api.getAllProject().subscribe((response: any) => {
       this.projects = response.projects;
+      this.spinner.hide();
     });
   }
 

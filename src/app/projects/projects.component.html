@@ -3,7 +3,20 @@
     <h1 *ngIf="project">{{project.title}}</h1>
   </div>
   <div class="header_actions">
-    <button (click)="canSearch()" *ngIf="!search">Add member</button>
+    <div class="header_actions_btnContainer">
+      <button (click)="canSearch()" *ngIf="!search">Add member</button>
+    </div>
+    <div class="header_actions_userContainer">
+      <span *ngFor="let user of users">
+        <b>{{user.userId.name[0]}}</b>
+
+        <div class="user_tooltip">
+          <p class="user_tooltip_name">{{user.userId.name}}</p>
+          <p class="user_tooltip_email">({{user.userId.email}})</p>
+        </div>
+
+      </span>
+    </div>
     <!-- <button (click)="dummy()" *ngIf="!search">Remove Member</button> -->
   </div>
 </div>
@@ -114,3 +127,4 @@
   <br>
   <button (click)="closeSolution()">Close</button>
 </div>
+<ngx-spinner></ngx-spinner>
