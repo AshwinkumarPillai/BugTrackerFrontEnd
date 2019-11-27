@@ -13,12 +13,14 @@ export class ViewProfileComponent implements OnInit {
 
   ngOnInit() {
     if (!this.api.viewUserId) this.router.navigate(["/project/"]);
-    this.api
-      .viewUserProfile({ userId: this.api.viewUserId })
-      .subscribe((response: any) => {
-        if (response.status == 200) {
-          this.user = response.user;
-        }
-      });
+    else {
+      this.api
+        .viewUserProfile({ userId: this.api.viewUserId })
+        .subscribe((response: any) => {
+          if (response.status == 200) {
+            this.user = response.user;
+          }
+        });
+    }
   }
 }
