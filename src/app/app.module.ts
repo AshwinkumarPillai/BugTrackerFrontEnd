@@ -11,12 +11,12 @@ import { ApiService } from "./services/api.service";
 import { FormsModule } from "@angular/forms";
 import { HttpModule } from "@angular/http";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { UpdateProfileComponent } from "./update-profile/update-profile.component";
 import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { AuthInterceptor } from "./services/auth.interceptor";
 import { CreateBugComponent } from "./create-bug/create-bug.component";
 import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
 import { NgxSpinnerModule } from "ngx-spinner";
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -25,9 +25,9 @@ import { NgxSpinnerModule } from "ngx-spinner";
     DashboardComponent,
     LoginComponent,
     RegisterComponent,
-    UpdateProfileComponent,
     CreateBugComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

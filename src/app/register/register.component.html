@@ -4,7 +4,14 @@
     <input type="password" placeholder="password" #pass><br>
     <input type="text" placeholder="contact" #contact><br>
     <input type="text" placeholder="designation" #designation><br>
-    <button (click)="register(name,email,pass,contact,designation)">Register</button>
+    <input type="text" placeholder="Add your github profile url" #github><br>
+    <input type="text" placeholder="Add your twitter url" #twitter><br>
+    <input type="text" placeholder="Add your portfolio" #portfolio><br>
+    <input type="text" placeholder="Add your linkedIn profile url" #linkedIn><br>
+    <button
+        (click)="register(name,email,pass,contact,designation,github.value,twitter.value,portfolio.value,linkedIn.value)">Register</button>
     <br>
     <h1 *ngIf="message">{{message}}</h1>
 </div>
+
+<p>Note: Once registered you cannot change your email</p>

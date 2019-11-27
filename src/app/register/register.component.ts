@@ -13,21 +13,53 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() {}
 
-  register(name, email, password, contact, designation) {
+  register(
+    name,
+    email,
+    password,
+    contact,
+    designation,
+    github,
+    twitter,
+    portfolio,
+    linkedIn
+  ) {
     this.message = "";
-    if (!name.value) this.message = "Please fill your name";
-    else if (!email.value) this.message = "Please fill email";
-    else if (!password.value) this.message = "Password cannot be blank";
-    else if (!contact.value) this.message = "Enter your contact details";
-    else if (!designation.value)
+
+    if (/^\s*$/.test(name.value)) {
+      this.message = "Please fill your name";
+    } else if (/^\s*$/.test(email.value)) {
+      this.message = "Please fill email";
+    } else if (/^\s*$/.test(password.value)) {
+      this.message = "Password cannot be blank";
+    } else if (/^\s*$/.test(contact.value)) {
+      this.message = "Enter your contact details";
+    } else if (/^\s*$/.test(designation.value)) {
       this.message = "Please specify your designation";
-    else {
+    } else {
+      if (/^\s*$/.test(github)) {
+        github = "";
+      }
+      if (/^\s*$/.test(twitter)) {
+        twitter = "";
+      }
+      if (/^\s*$/.test(portfolio)) {
+        portfolio = "";
+      }
+      if (/^\s*$/.test(linkedIn)) {
+        linkedIn = "";
+      }
+
       let data = {
         name: name.value,
         email: email.value,
         password: password.value,
         contact: contact.value,
-        designation: designation.value
+        designation: designation.value,
+        github,
+        twitter,
+        portfolio,
+        linkedIn
       };
 
       this.api.registerUser(data).subscribe((response: any) => {

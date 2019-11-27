@@ -1,0 +1,42 @@
+<div class="profile">
+  <h1><input type="text" [ngClass]="{active: updateOn}" value="{{user.name}}" #name></h1>
+  <p class="profile_email">Email: {{user.email}}</p>
+  <p>Designation: <input type="text" [ngClass]="{active: updateOn}" value="{{user.designation}}" class="designation"
+      #designation></p>
+  <!-- <span class="profile_letter">{{user.name[0]}}</span> -->
+  <div *ngIf="user.github || updateOn">
+    Github:
+    <a href="http://{{user.github}}" *ngIf="!updateOn" target="blank">
+      {{user.github}}
+    </a>
+    <input type="text" *ngIf="updateOn" [ngClass]="{active: updateOn}" value="{{user.github}}" #github>
+  </div>
+  <div *ngIf="user.twitter || updateOn">
+    Twitter:
+    <a href="http://{{user.twitter}}" *ngIf="!updateOn" target="blank">
+      {{user.twitter}}
+    </a>
+    <input type="text" *ngIf="updateOn" [ngClass]="{active: updateOn}" value="{{user.twitter}}" #twitter>
+  </div>
+  <div *ngIf="user.linkedIn || updateOn">
+    LinkedIn:
+    <a href="http://{{user.linkedIn}}" *ngIf="!updateOn" target="blank">
+      {{user.linkedIn}}
+    </a>
+    <input type="text" *ngIf="updateOn" [ngClass]="{active: updateOn}" value="{{user.linkedIn}}" #linkedIn>
+  </div>
+  <div *ngIf="user.portfolio || updateOn">
+    Portfolio:
+    <a href="http://{{user.portfolio}}" *ngIf="!updateOn" target="blank">
+      {{user.portfolio}}
+    </a>
+    <input type="text" *ngIf="updateOn" [ngClass]="{active: updateOn}" value="{{user.portfolio}}" #portfolio>
+  </div>
+</div>
+
+<button class="edit" (click)="editProfile()" *ngIf="!updateOn">
+  Edit
+</button>
+
+<button *ngIf="updateOn" (click)="updateProfile(name.value,designation.value)">Update</button>
+<button (click)="cancel()" *ngIf="updateOn">Cancel</button>

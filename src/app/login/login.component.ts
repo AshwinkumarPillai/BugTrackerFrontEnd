@@ -23,10 +23,12 @@ export class LoginComponent implements OnInit {
       this.message = response.message;
       if (response.token) {
         this.api.token = response.token;
+        console.log(response);
         localStorage.setItem(
           "currentUser",
           JSON.stringify({ token: response.token })
         );
+        localStorage.setItem('userdata', JSON.stringify({userdata: response.userdata}));
         this.router.navigate(["/"]);
       }
     });
