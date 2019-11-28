@@ -24,7 +24,16 @@
 
     &_userContainer {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+      grid-row-gap: 10px;
+
+      :nth-child(4n-7) {
+        background: #ffa801;
+      }
+
+      :nth-child(3n) {
+        background: #05c46b;
+      }
 
       span {
         cursor: pointer;
@@ -32,32 +41,43 @@
         margin: 0px 2px;
         padding: 10px;
         text-align: center;
-        background: #3498db;
+        background: #0fbcf9;
         color: white;
         box-shadow: 0px 0px 10px #d3d3d3;
         position: relative;
         transition: 0.2s;
+        width: 15px;
+        height: 15px;
+        position: relative;
+        z-index: 1;
 
         b {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
           text-transform: uppercase;
+          background: transparent;
         }
 
         &:hover {
           transform: scale(1.1);
+          z-index: 10;
         }
 
         .user_tooltip {
           position: absolute;
           top: 90%;
-          left: 0;
+          right: 0;
           opacity: 0;
-          z-index: -100;
-          background: #fbc531;
+          // background: #fbc531;
+          background: white;
           color: black;
           padding: 10px;
           transition: 0.2s;
           box-shadow: 0px 0px 10px #d3d3d3;
           border-radius: 10px;
+          pointer-events: none;
 
           p {
             margin: 0;
@@ -65,6 +85,7 @@
 
           &_name {
             color: #130f40;
+            background: white;
           }
 
           &_email {
@@ -73,8 +94,7 @@
         }
 
         &:hover .user_tooltip {
-          opacity: 1;
-          z-index: 20;
+          opacity: 1 !important;
         }
       }
     }
@@ -133,6 +153,8 @@ table {
   border-collapse: collapse;
   width: 100%;
   box-shadow: 0px 1px 10px #d3d3d3;
+  transform: scale(0.98);
+  margin-left: -2vh;
 }
 
 td,
@@ -142,8 +164,6 @@ th {
   padding: 8px;
   transition: 0.2s;
   cursor: pointer;
-  &:hover {
-  }
 }
 
 th {
@@ -154,7 +174,7 @@ td {
   color: #130f40;
   input,
   select {
-    border-color: #0294bd !important;
+    border-color: #6c5ce7 !important;
     margin: 0;
     color: #130f40;
     border: none;
@@ -184,12 +204,12 @@ td {
   text-align: center;
   button {
     background: transparent;
-    color: #0294bd;
+    color: #9a68f2;
     cursor: pointer;
     transition: 0.2s;
 
     &:hover {
-      background: #0294bd;
+      background: #9a68f2;
       color: white;
     }
   }
@@ -230,7 +250,7 @@ td {
     margin-bottom: 2vh;
   }
   &_dev {
-    border: 0.5px solid #0294bd;
+    border: 0.5px solid #9a68f2;
     border-radius: 5px;
     padding: 5px;
     cursor: pointer;
@@ -280,7 +300,7 @@ td {
   box-sizing: border-box;
 
   textarea {
-    border: 0.5px solid #0294bd;
+    border: 0.5px solid #9a68f2;
     width: 50vw;
     height: 50vh;
     resize: none;

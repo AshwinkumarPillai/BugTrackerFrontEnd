@@ -1,9 +1,19 @@
-<div class="form">
+<div class="form" *ngIf="!fgpass">
     <input type="email" placeholder="email" #email><br>
     <input type="password" placeholder="password" #pass><br>
-    <button (click)="login(email.value, pass.value)">Login</button><br>
+    <button (click)="login(email.value, pass.value)" class="login">Login</button><br>
     <p style="color: #30336b;">Do not have an account? Create one below:</p>
-    <button (click)="register()">Create new account</button>
+    <button (click)="register()" class="register">Create new account</button>
     <br>
     <h1 *ngIf="message">{{message}}</h1>
+</div>
+
+<p class="forgot" *ngIf="!fgpass">
+    <span (click)="forgotPassword()">Forgot Password? &nbsp;Click here</span>
+</p>
+
+<div class="form" *ngIf="fgpass">
+    <input type="email" placeholder="email" #fgemail><br>
+    <button (click)="mailpass()" class="login">Send link to your email</button><br>
+    <button (click)="cancelFgpass()">Cancel</button><br>
 </div>

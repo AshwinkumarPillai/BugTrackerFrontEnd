@@ -42,7 +42,7 @@
 </div>
 
 <div *ngIf="users.length !== 0" class="devList">
-  <p style="color: #0294bd;">Assign Developer:</p>
+  <p style="color: #9A68F2;">Assign Developer:</p>
   <div class="devList_container">
     <div class="devList_devs" *ngFor="let user of users;let i=index" (click)="addDev(user,i)"
       [ngClass]="{selectedDev: devs.get(i)}">
@@ -51,7 +51,7 @@
     </div>
   </div>
 </div>
-<div *ngIf="users.length === 0">You don't have any teammates yet!</div>
+<div *ngIf="users.length === 0" style="margin: 5vh 2vh;">You don't have any teammates yet!</div>
 
 <button (click)="create(title.value,subtitle.value,deadline.value)" class="createBtn">Create</button>
 <ngx-spinner></ngx-spinner>

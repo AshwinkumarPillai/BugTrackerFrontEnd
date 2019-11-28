@@ -9,6 +9,7 @@ import { Router } from "@angular/router";
 export class AppComponent implements OnChanges, OnInit {
   title = "BugTracker-frontend";
   loggedIn: boolean = false;
+  sdopen: boolean = false;
 
   constructor(private router: Router) {}
 
@@ -32,5 +33,19 @@ export class AppComponent implements OnChanges, OnInit {
 
   logIn() {
     this.router.navigate(["/login/"]);
+  }
+
+  showSideMenu() {
+    let sidemenu = document.getElementById("sidemenu");
+    sidemenu.style.transform = "scale(1)";
+    this.sdopen = true;
+  }
+
+  closeSidemenu() {
+    if (this.sdopen) {
+      this.sdopen = false;
+      let sidemenu = document.getElementById("sidemenu");
+      sidemenu.style.transform = "scale(0)";
+    }
   }
 }

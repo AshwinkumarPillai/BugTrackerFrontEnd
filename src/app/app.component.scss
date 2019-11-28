@@ -10,7 +10,8 @@
     padding: 10px;
     border-right: 1px solid #d3d3d3;
     // background: #ffa200;
-    background: #0294bd;
+    background: #8854d0;
+    // background: #323259;
     // background: #8c7ae6;
 
     h3 {
@@ -30,7 +31,7 @@
         padding: 10px;
         list-style: none;
         width: 13vw;
-        background: #7ed6df;
+        background: #323259;
         color: white;
 
         transition: 0.3s;
@@ -43,12 +44,8 @@
   }
 
   .main {
-    // overflow-x: hidden;
     padding: 1vh;
-    // padding-left: ;
-    // width: 80vw;
-    // background: ;
-    // border: 1px solid black;
+    margin-left: 2vh;
   }
 }
 
@@ -56,4 +53,13 @@
   //   background: #0984e3 !important;
   background: white !important;
   color: #0087cb !important;
+}
+
+.logout {
+  color: black;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+    transform: scale(1.02);
+  }
 }

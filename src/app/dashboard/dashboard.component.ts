@@ -20,12 +20,13 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     if (!localStorage.getItem("currentUser")) {
       this.router.navigate(["/login/"]);
+    } else {
+      this.spinner.show();
+      this.api.getAllProject().subscribe((response: any) => {
+        this.projects = response.projects;
+        this.spinner.hide();
+      });
     }
-    this.spinner.show();
-    this.api.getAllProject().subscribe((response: any) => {
-      this.projects = response.projects;
-      this.spinner.hide();
-    });
   }
 
   createProject(title) {

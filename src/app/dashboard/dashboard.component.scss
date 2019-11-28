@@ -1,5 +1,5 @@
 .Title {
-  color: #0294bd;
+  color: #9a68f2;
 }
 .addp {
   margin: 0 0 2vh 0;
@@ -12,7 +12,7 @@
   padding: 10px;
   border: 1px solid black;
   width: 30vw;
-  border-color: #0294bd;
+  border-color: #9a68f2;
 }
 
 .createBtn {
@@ -32,6 +32,7 @@
     grid-gap: 2vh;
   }
 
+  transform: scale(0.95);
   background: #ffca28;
   color: #2f3640;
   // border: 1px solid black;
@@ -43,7 +44,7 @@
 
   &:hover {
     // background: rgba(#ffca28, 0.8);
-    transform: scale(1.01);
+    transform: scale(1);
     box-shadow: 5px 5px 5px grey;
   }
 }

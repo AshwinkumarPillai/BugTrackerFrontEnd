@@ -19,7 +19,9 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     if (!localStorage.getItem("currentUser")) this.router.navigate(["/login/"]);
-    this.user = JSON.parse(localStorage.getItem("userdata")).userdata;
+    else {
+      this.user = JSON.parse(localStorage.getItem("userdata")).userdata;
+    }
   }
 
   editProfile() {

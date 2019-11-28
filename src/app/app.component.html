@@ -1,22 +1,29 @@
 <div class="container">
-    <div class="sidemenu">
-        <h3>Ash Bug tracker</h3>
-        <ul>
-            <li routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-                Dashboard
-            </li>
-            <li routerLink="/profile" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-                Profile
-            </li>
+    <div class="FakeDiv">
 
-            <li>Coming Soon</li>
-            <li>Coming Soon</li>
-            <li (click)="logOut()" style="background: red;">Logout</li>
-            <!-- <li (click)="logIn()" *ngIf="!loggedIn">Login</li> -->
-        </ul>
+        <!-- <div class="navbar" (click)="showSideMenu()">
+            navbar
+        </div> -->
+
+        <div class="sidemenu" id="sidemenu">
+            <h3>Ash Bug tracker</h3>
+            <ul>
+                <li routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                    Dashboard
+                </li>
+                <li routerLink="/profile" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                    Profile
+                </li>
+
+                <li routerLink="/login" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Login</li>
+                <li>Coming Soon</li>
+                <!-- <li (click)="logIn()" *ngIf="!loggedIn">Login</li> -->
+            </ul>
+            <br><br>
+            <div (click)="logOut()" class="logout">Logout</div>
+        </div>
     </div>
-    <div class="FakeDiv" style="color: transparent; background: transparent;z-index: -10000000;">.</div>
-    <div class="main">
+    <div class="main" (click)="closeSidemenu()">
         <router-outlet></router-outlet>
     </div>
 </div>

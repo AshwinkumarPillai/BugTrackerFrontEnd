@@ -28,6 +28,7 @@ export class ProjectsComponent implements OnInit {
   showSolveArea: boolean = false;
   viewSolution: boolean = false;
   bugUsers: any[] = [];
+  currentUserId: any;
 
   constructor(
     private api: ApiService,
@@ -39,6 +40,10 @@ export class ProjectsComponent implements OnInit {
     if (!localStorage.getItem("currentUser")) {
       this.router.navigate(["/login/"]);
     } else {
+      this.currentUserId = JSON.parse(
+        localStorage.getItem("userdata")
+      ).userdata._id;
+      console.log(this.currentUserId);
       this.spinner.show();
       let data = JSON.parse(localStorage.getItem("projectData"));
       this.api.getOneProject(data).subscribe((response: any) => {
@@ -255,8 +260,12 @@ export class ProjectsComponent implements OnInit {
   }
 
   viewProfile(user) {
-    this.api.viewUserId = user.userId._id;
-    this.router.navigate([`/viewProfile/`]);
+    if (this.currentUserId == user.userId._id) {
+      this.router.navigate(["/profile/"]);
+    } else {
+      this.api.viewUserId = user.userId._id;
+      this.router.navigate([`/viewProfile/`]);
+    }
   }
 
   deleteProject() {
