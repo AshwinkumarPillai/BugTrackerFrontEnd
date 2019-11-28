@@ -8,8 +8,8 @@ import { HttpClient } from "@angular/common/http";
 // })
 @Injectable()
 export class ApiService {
-  // url: string = "http://localhost:3500";
-  url: string = "https://ash-bug-tracker.herokuapp.com/";
+  url: string = "http://localhost:3500";
+  // url: string = "https://ash-bug-tracker.herokuapp.com";
   token: any;
   currentProject: any;
   currentBugs: any;
@@ -104,6 +104,14 @@ export class ApiService {
   removeBuddy(data) {
     return this.httpClient
       .post(this.url + "/project/removeBuddy", data)
+      .map((response: Response) => {
+        return response;
+      });
+  }
+
+  deleteProject(data) {
+    return this.httpClient
+      .post(this.url + "/project/delete", data)
       .map((response: Response) => {
         return response;
       });

@@ -38,21 +38,21 @@ export class ProjectsComponent implements OnInit {
   ngOnInit() {
     if (!localStorage.getItem("currentUser")) {
       this.router.navigate(["/login/"]);
-    }
-
-    this.spinner.show();
-    let data = JSON.parse(localStorage.getItem("projectData"));
-    this.api.getOneProject(data).subscribe((response: any) => {
-      this.project = response.project;
-      this.users = response.users;
-      this.bugs = response.bugs;
-      this.users.forEach(user => {
-        if (user.role !== "owner") {
-          this.bugUsers.push(user);
-        }
+    } else {
+      this.spinner.show();
+      let data = JSON.parse(localStorage.getItem("projectData"));
+      this.api.getOneProject(data).subscribe((response: any) => {
+        this.project = response.project;
+        this.users = response.users;
+        this.bugs = response.bugs;
+        this.users.forEach(user => {
+          if (user.role !== "owner") {
+            this.bugUsers.push(user);
+          }
+        });
+        this.spinner.hide();
       });
-      this.spinner.hide();
-    });
+    }
   }
 
   createBug() {
@@ -76,10 +76,8 @@ export class ProjectsComponent implements OnInit {
     if (element.target.value.length > 2) {
       this.userList = this.Allusers.filter(user => {
         const regex = new RegExp(element.target.value, "gi");
-        // console.log(regex);
         return user.name.match(regex) || user.email.match(regex);
       });
-      // console.log(this.userList);
     } else {
       this.userList = [];
     }
@@ -89,39 +87,39 @@ export class ProjectsComponent implements OnInit {
     let name = val.name;
     let email = val.email;
     this.selectedUser = val;
-
     this.input.nativeElement.value = name + " < " + email + " > ";
-
     this.userList = [];
   }
 
   addMember() {
     this.spinner.show();
-    const data = {
-      projectId: this.project._id,
-      newId: this.selectedUser._id,
-      role: "dev",
-      isNew: true
-    };
+    if (!this.selectedUser) {
+      this.input.nativeElement.value = "";
+      this.message = "No user Found";
+      this.spinner.hide();
+    } else {
+      const data = {
+        projectId: this.project._id,
+        newId: this.selectedUser._id,
+        role: "dev",
+        isNew: true
+      };
 
-    // setTimeout(() => {
-    //   alert("Seems like there is no internet Connection");
-    //   this.spinner.hide();
-    // }, 5000);
-
-    this.api.addBuddy(data).subscribe((response: any) => {
-      console.log(response);
-      if (response.message) {
-        this.message = response.message;
-        this.input.nativeElement.value = "";
-        this.spinner.hide();
-      } else {
-        this.spinner.hide();
-        this.message = "Added member successfully";
-        this.ngOnInit();
-        // alert("Added Member Successfully!");
-      }
-    });
+      this.api.addBuddy(data).subscribe((response: any) => {
+        console.log(response);
+        if (response.message) {
+          this.message = response.message;
+          this.input.nativeElement.value = "";
+          this.spinner.hide();
+        } else {
+          this.spinner.hide();
+          this.input.nativeElement.value = "";
+          this.message = "Added member successfully";
+          this.ngOnInit();
+          // alert("Added Member Successfully!");
+        }
+      });
+    }
   }
 
   editBug(bug, id) {
@@ -139,8 +137,8 @@ export class ProjectsComponent implements OnInit {
       screenShot: "",
       deadline
     };
-    console.log(deadline);
-    console.log(data);
+    // console.log(deadline);
+    // console.log(data);
     this.api.updateBug(data).subscribe((response: any) => {
       console.log(response);
       this.updateMap.delete(id);
@@ -259,5 +257,21 @@ export class ProjectsComponent implements OnInit {
   viewProfile(user) {
     this.api.viewUserId = user.userId._id;
     this.router.navigate([`/viewProfile/`]);
+  }
+
+  deleteProject() {
+    let confirmation = confirm(
+      "Are you sure you want to detele the project? This action cannot be reverted."
+    );
+    if (confirmation) {
+      let data = {
+        projectId: this.project._id
+      };
+
+      this.api.deleteProject(data).subscribe((response: any) => {
+        console.log(response.message);
+        this.router.navigate(["/"]);
+      });
+    }
   }
 }

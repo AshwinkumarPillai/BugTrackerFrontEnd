@@ -69,8 +69,9 @@ export class CreateBugComponent implements OnInit {
         assignedDev: selectedDevs,
         watch: this.watch
       };
+      console.log(data.deadline);
       this.api.registerBug(data).subscribe((response: any) => {
-        console.log(response);
+        // console.log(response);
         this.spinner.hide();
         // alert("Bug registered successfully!");
         this.router.navigate(["/project/"]);

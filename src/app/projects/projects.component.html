@@ -4,7 +4,8 @@
   </div>
   <div class="header_actions">
     <div class="header_actions_btnContainer">
-      <button (click)="canSearch()" *ngIf="!search">Add member</button>
+      <button (click)="canSearch()" *ngIf="!search">Add member</button>&nbsp;&nbsp;&nbsp;
+      <button (click)="deleteProject()" *ngIf="!search" class="delete">Delete Project</button>
     </div>
     <div class="header_actions_userContainer">
       <span *ngFor="let user of users" (click)="viewProfile(user)">

@@ -1,25 +1,27 @@
 .header {
   display: grid;
   grid-template-columns: 6fr 2fr;
-  &_title {
-  }
+  // &_title {
+  // }
 
   &_actions {
     div {
       margin: 10px 0;
     }
     display: flex;
-
     justify-content: center;
-    // align-items: center;
     flex-direction: column;
+    // align-items: center;
 
-    // button {
-    //   margin-left: 2vh;
+    .delete {
+      background: #e84118;
+      color: white;
+      border: none;
+    }
+
+    // &_btnContainer {
     // }
 
-    &_btnContainer {
-    }
     &_userContainer {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;

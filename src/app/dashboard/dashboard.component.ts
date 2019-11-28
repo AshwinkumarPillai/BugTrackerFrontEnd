@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { ApiService } from "../services/api.service";
 import { Router } from "@angular/router";
 import { NgxSpinnerService } from "ngx-spinner";
@@ -9,6 +9,7 @@ import { NgxSpinnerService } from "ngx-spinner";
   styleUrls: ["./dashboard.component.scss"]
 })
 export class DashboardComponent implements OnInit {
+  @ViewChild("proname") projectName: ElementRef;
   projects: any[] = [];
   constructor(
     private api: ApiService,
@@ -34,6 +35,7 @@ export class DashboardComponent implements OnInit {
     this.api.createProject(data).subscribe(() => {
       this.api.getAllProject().subscribe((response: any) => {
         this.projects = response.projects;
+        this.projectName.nativeElement.value = "";
       });
     });
   }
