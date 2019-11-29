@@ -1,5 +1,5 @@
 <div class="profile">
-  <h1><input type="text" [ngClass]="{active: updateOn}" value="{{user.name}}" #name></h1>
+  <h1 class="username"><input type="text" [ngClass]="{active: updateOn}" value="{{user.name}}" #name></h1>
   <p class="profile_email">Email: {{user.email}}</p>
   <p>Designation: <input type="text" [ngClass]="{active: updateOn}" value="{{user.designation}}" class="designation"
       #designation></p>
@@ -38,5 +38,5 @@
   Edit
 </button>
 
-<button *ngIf="updateOn" (click)="updateProfile(name.value,designation.value)">Update</button>
-<button (click)="cancel()" *ngIf="updateOn">Cancel</button>
+<button *ngIf="updateOn" (click)="updateProfile(name.value,designation.value)" class="update">Update</button>
+<button (click)="cancel()" *ngIf="updateOn" class="cancel">Cancel</button>

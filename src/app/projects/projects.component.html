@@ -1,106 +1,110 @@
-<div class="header">
-  <div class="header_title">
-    <h1 *ngIf="project">{{project.title}}</h1>
-  </div>
-  <div class="header_actions">
-    <div class="header_actions_btnContainer">
-      <button (click)="canSearch()" *ngIf="!search">Add member</button>&nbsp;&nbsp;&nbsp;
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 col-md-6 title">
+      <h1 *ngIf="project">{{project.title}}</h1>
+    </div>
+    <div class="col-12 col-md-6 actions topbtns">
+      <button (click)="canSearch()" *ngIf="!search" class="addmember">Add member</button>
       <button (click)="deleteProject()" *ngIf="!search" class="delete">Delete Project</button>
     </div>
-    <div class="header_actions_userContainer">
-      <span *ngFor="let user of users" (click)="viewProfile(user)">
-        <b>{{user.userId.name[0]}}</b>
-
-        <div class="user_tooltip">
-          <p class="user_tooltip_name">{{user.userId.name}}</p>
-          <p class="user_tooltip_email">({{user.userId.email}})</p>
+    <div class="col-12 col-md-6">
+      <div *ngIf="search" class="search">
+        <input type="text" placeholder="email" (keyup)="searchUser($event)" #selectUser class="search_input">
+        <button (click)="addMember()">Add</button>&nbsp;&nbsp;
+        <button (click)="closeSearch()">Cancel</button>
+        <div *ngFor="let user of userList" class="userList" (click)="addToInput(user)">
+          {{user.name}} &nbsp;&nbsp;&nbsp;{{user.email}}
         </div>
-
+        <div *ngIf="message" style="font-family: sans-serif; color:red;"><i>{{message}}</i></div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 users">
+      <span *ngFor="let user of users" (click)="viewProfile(user)" class="users_user">
+        <b>{{user.userId.name[0]}}</b>
+        <div class="users_user_tooltip">
+          <p class="users_user_tooltip_name">{{user.userId.name}}</p>
+          <p class="users_user_tooltip_email">({{user.userId.email}})</p>
+        </div>
       </span>
     </div>
-    <!-- <button (click)="dummy()" *ngIf="!search">Remove Member</button> -->
-  </div>
-</div>
-<div *ngIf="search" class="search">
-  <input type="text" placeholder="email" (keyup)="searchUser($event)" #selectUser class="search_input">
-  <button (click)="addMember()">Add</button>&nbsp;&nbsp;
-  <button (click)="closeSearch()">Cancel</button>
-  <div *ngIf="message" style="font-family: sans-serif; color:red;"><i>{{message}}</i></div>
-</div>
 
-<div *ngFor="let user of userList" class="userList" (click)="addToInput(user)">
-  {{user.name}} &nbsp;&nbsp;&nbsp;{{user.email}}
+  </div>
+
 </div>
 <hr>
 
-<button (click)="createBug()" class="createBug">Add a new Bug</button>
+<button (click)="createBug()" class="createBug">
+  <i class="fa fa-bug" aria-hidden="true"></i>&nbsp;
+  Add a new Bug
+</button>
 <br><br>
 
 <div *ngIf="bugs.length == 0">No new bugs</div>
 
-<table *ngIf="bugs.length !== 0">
-  <tr>
-    <th>No.</th>
-    <th>Title</th>
-    <th>Subtitle</th>
-    <th>Priority</th>
-    <th>Status</th>
-    <th>Deadline</th>
-    <th>Devs</th>
-    <th class="actions">Solve</th>
-    <th class="actions">Assign Dev</th>
-    <th class="actions">Edit</th>
-    <th class="actions">Archive</th>
-  </tr>
-  <tr *ngFor="let bug of bugs;let i=index" [ngClass]="{update:updateMap.get(i)}">
-    <td>{{i+1}}.</td>
-    <td class="bug_title"><input type="text" value="{{bug.title}}" #bugTitle></td>
-    <td class="bug_subTitle">
-      <span *ngIf="!bug.subtitle && !updateMap.get(i)">---</span>
-      <input type="text" value="{{bug.subtitle}}" #bugsubTitle>
-    </td>
-    <td>
-      <select name="" id="" #bugPriority>
-        <option value="" selected disabled hidden>{{bug.priority}}</option>
-        <option value="Low">Low</option>
-        <option value="Moderate">Moderate</option>
-        <option value="High">High</option>
-        <option value="Critical">Critical</option>
-      </select>
-    </td>
-    <td>
-      <select name="" id="" #bugStatus>
-        <option value="" selected disabled hidden>{{bug.status}}</option>
-        <option value="open">open</option>
-        <option value="closed">closed</option>
-      </select>
-    </td>
-    <td>
-      <input type="date" value="{{bug.deadline.split('T')[0]}}" #bugDeadline>
-    </td>
-    <td class="devsColumn">
-      <span *ngFor="let dev of bug.assignedDev;let k=index">
-        {{dev.userId.name}}
-        <span *ngIf="bug.assignedDev.length >1 && !(bug.assignedDev.length-1 === k)">,</span>
-      </span>
-    </td>
-    <td class="actions">
-      <button *ngIf="!bug.solution" (click)="solveBug(bug)">Solve</button>
-      <button *ngIf="bug.solution" (click)="ViewSolution(bug)">View Solution</button>
-    </td>
-    <td class="actions"><button (click)=AssignDev(bug)>Assign Dev</button></td>
-    <td class="actions">
-      <button *ngIf="updateMap.get(i)"
-        (click)="updateBug(bug._id,i,bugTitle.value, bugsubTitle.value,bugPriority.selectedOptions[0].text,bugStatus.selectedOptions[0].text,bugDeadline.value)"
-        class="actions_update">Update</button>
-      <button *ngIf="updateMap.get(i)" (click)="cancel(i)" class="actions_cancel">Cancel</button>
-      <button (click)="editBug(bug, i)" *ngIf="!updateMap.get(i)">Edit</button>
-    </td>
-    <td class="actions"><button (click)="ArchiveBug(bug)">Archive</button></td>
-  </tr>
-</table>
-
-
+<div style="overflow-x:auto;">
+  <table *ngIf="bugs.length !== 0" id="bugtable">
+    <tr>
+      <th>No.</th>
+      <th>Title</th>
+      <th>Subtitle</th>
+      <th>Priority</th>
+      <th>Status</th>
+      <th>Deadline</th>
+      <th>Devs</th>
+      <th class="actions">Solve</th>
+      <th class="actions">Assign Dev</th>
+      <th class="actions">Edit</th>
+      <th class="actions">Archive</th>
+    </tr>
+    <tr *ngFor="let bug of bugs;let i=index" [ngClass]="{update:updateMap.get(i)}">
+      <td>{{i+1}}.</td>
+      <td class="bug_title"><input type="text" value="{{bug.title}}" #bugTitle></td>
+      <td class="bug_subTitle">
+        <span *ngIf="!bug.subtitle && !updateMap.get(i)">---</span>
+        <input type="text" value="{{bug.subtitle}}" #bugsubTitle>
+      </td>
+      <td>
+        <select name="" id="" #bugPriority>
+          <option value="" selected disabled hidden>{{bug.priority}}</option>
+          <option value="Low">Low</option>
+          <option value="Moderate">Moderate</option>
+          <option value="High">High</option>
+          <option value="Critical">Critical</option>
+        </select>
+      </td>
+      <td>
+        <select name="" id="" #bugStatus>
+          <option value="" selected disabled hidden>{{bug.status}}</option>
+          <option value="open">open</option>
+          <option value="closed">closed</option>
+        </select>
+      </td>
+      <td>
+        <input type="date" value="{{bug.deadline.split('T')[0]}}" #bugDeadline>
+      </td>
+      <td class="devsColumn">
+        <span *ngFor="let dev of bug.assignedDev;let k=index">
+          {{dev.userId.name}}
+          <span *ngIf="bug.assignedDev.length >1 && !(bug.assignedDev.length-1 === k)">,</span>
+          <br>
+        </span>
+      </td>
+      <td class="actions">
+        <button *ngIf="!bug.solution" (click)="solveBug(bug)">Solve</button>
+        <button *ngIf="bug.solution" (click)="ViewSolution(bug)">View Solution</button>
+      </td>
+      <td class="actions"><button (click)=AssignDev(bug)>Assign Dev</button></td>
+      <td class="actions">
+        <button *ngIf="updateMap.get(i)"
+          (click)="updateBug(bug._id,i,bugTitle.value, bugsubTitle.value,bugPriority.selectedOptions[0].text,bugStatus.selectedOptions[0].text,bugDeadline.value)"
+          class="actions_update">Update</button>
+        <button *ngIf="updateMap.get(i)" (click)="cancel(i)" class="actions_cancel">Cancel</button>
+        <button (click)="editBug(bug, i)" *ngIf="!updateMap.get(i)">Edit</button>
+      </td>
+      <td class="actions"><button (click)="ArchiveBug(bug)" class="archive">Archive</button></td>
+    </tr>
+  </table>
+</div>
 
 <div *ngIf="advcalled" class="assignDevModal">
   <div class="assignDevModal_container">
@@ -118,14 +122,14 @@
 <div *ngIf="advcalled || showSolveArea || viewSolution" class="assignDevModal_backdrop"></div>
 
 <div *ngIf="showSolveArea" class="ViewSolution">
-  <textarea name="" id="" cols="30" rows="10" #solution></textarea>
-  <button (click)="submitSolution()">Submit</button>
+  <textarea name="" id="" cols="30" rows="10" #solution></textarea><br><br>
+  <button (click)="submitSolution()" style="margin-right: 20px;">Submit</button>
   <button (click)="cancelSolution()">Cancel</button>
 </div>
 
 <div *ngIf="viewSolution" class="ViewSolution">
   <textarea name="" id="" cols="30" rows="10" #viewSolutionCode></textarea>
-  <br>
+  <br><br>
   <button (click)="closeSolution()">Close</button>
 </div>
 <ngx-spinner></ngx-spinner>

@@ -1,5 +1,5 @@
 .Title {
-  color: #9a68f2;
+  color: #3498db;
 }
 .addp {
   margin: 0 0 2vh 0;
@@ -11,8 +11,8 @@
 .AddInp {
   padding: 10px;
   border: 1px solid black;
-  width: 30vw;
-  border-color: #9a68f2;
+  width: 100%;
+  border-color: #3498db;
 }
 
 .createBtn {
@@ -32,11 +32,18 @@
     grid-gap: 2vh;
   }
 
+  &:nth-child(2n) {
+    background: #f0932b;
+  }
+
+  &:nth-child(3n) {
+    background: #badc58;
+  }
+
+  position: relative;
   transform: scale(0.95);
   background: #ffca28;
   color: #2f3640;
-  // border: 1px solid black;
-  // border-radius: 20px;
   box-shadow: 5px 5px 10px #d3d3d3;
   padding: 10px;
   transition: 0.2s;
@@ -46,5 +53,38 @@
     // background: rgba(#ffca28, 0.8);
     transform: scale(1);
     box-shadow: 5px 5px 5px grey;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background: rgba(white, 0.15);
+    transition: 0.2s;
+  }
+
+  &:hover {
+    &::after {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 730px) {
+  .project {
+    &_container {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .project {
+    &_container {
+      grid-template-columns: auto;
+    }
   }
 }

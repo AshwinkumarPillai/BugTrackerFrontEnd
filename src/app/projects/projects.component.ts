@@ -39,6 +39,8 @@ export class ProjectsComponent implements OnInit {
   ngOnInit() {
     if (!localStorage.getItem("currentUser")) {
       this.router.navigate(["/login/"]);
+    } else if (!localStorage.getItem("projectData")) {
+      this.router.navigate(["/"]);
     } else {
       this.currentUserId = JSON.parse(
         localStorage.getItem("userdata")

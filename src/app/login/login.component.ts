@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { ApiService } from "../services/api.service";
 import { Router } from "@angular/router";
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: "app-login",
@@ -12,7 +13,11 @@ export class LoginComponent implements OnInit {
   fgpass: boolean = false;
   @ViewChild("fgemail") fgemail: ElementRef;
 
-  constructor(private api: ApiService, private router: Router) {}
+  constructor(
+    private api: ApiService,
+    private router: Router,
+    private spinner: NgxSpinnerService
+  ) {}
 
   ngOnInit() {}
 
@@ -27,6 +32,7 @@ export class LoginComponent implements OnInit {
         email,
         password
       };
+      this.spinner.show();
       this.api.loginUser(data).subscribe((response: any) => {
         this.message = response.message;
         if (response.token) {
@@ -39,6 +45,7 @@ export class LoginComponent implements OnInit {
             "userdata",
             JSON.stringify({ userdata: response.userdata })
           );
+          this.spinner.hide();
           this.router.navigate(["/"]);
         }
       });

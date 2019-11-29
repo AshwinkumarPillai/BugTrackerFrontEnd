@@ -1,20 +1,22 @@
 .profile {
   h1 {
     box-shadow: 0px 0px 10px #d3d3d3;
-    background: #8854D0;
+    background: #8854d0;
     text-align: center;
     input {
       color: white;
       text-align: center;
-      font-size: 5vh;
+      font-size: 4vh;
       background: transparent;
+      width: 100%;
       //   border: 1px solid green;
     }
   }
 
-     .designation {
-	text-transform: uppercase;  
-   }
+  .designation {
+    text-transform: uppercase;
+    margin: 0;
+  }
 
   input {
     pointer-events: none;
@@ -41,8 +43,41 @@
   pointer-events: all !important;
   border: 1px solid #0984e3 !important;
   color: black !important;
+  margin-left: 2vh;
 }
 
-button {
+.edit,
+.update,
+.cancel {
+  width: 10vw;
   margin-right: 20px;
+}
+
+p {
+  margin: 0;
+}
+
+@media only screen and (max-width: 600px) {
+  .active {
+    width: 90vw !important;
+  }
+
+  .username {
+    padding: 0;
+    input {
+      width: 100% !important;
+      margin: 0;
+    }
+  }
+
+  .edit {
+    margin-top: 10vh;
+  }
+
+  .edit,
+  .update,
+  .cancel {
+    width: 90vw;
+    margin-top: 2vh;
+  }
 }

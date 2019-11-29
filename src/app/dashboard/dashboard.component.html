@@ -2,8 +2,14 @@
 <!-- <button (click)="signOut()">Sign Out</button> -->
 <br>
 <p class="addp">Add a new Project:</p>
-<input type="text" placeholder="Project name" #proname class="AddInp">
-<button (click)="createProject(proname.value)" class="createBtn">Create Project</button>
+<div class="row">
+    <div class="col-12 col-md-6">
+        <input type="text" placeholder="Project name" #proname class="AddInp">
+    </div>
+    <div class="col-12 col-md-6">
+        <button (click)="createProject(proname.value)" class="createBtn">Create Project</button>
+    </div>
+</div>
 <br><br>
 <hr>
 <br>

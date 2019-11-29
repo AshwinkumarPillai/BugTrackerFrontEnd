@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+@import "~bootstrap/dist/css/bootstrap.min.css";
 body {
   margin: 0;
   padding: 0;
@@ -16,9 +17,9 @@ button {
   border: none;
   outline: none;
   padding: 10px;
-  background: #8854d0;
+  background: #3498db;
   color: white;
-  border: 1px solid #8854d0;
+  border: 1px solid #3498db;
   transition: 0.2s;
   cursor: pointer;
 

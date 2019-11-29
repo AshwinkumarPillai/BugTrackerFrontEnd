@@ -1,124 +1,92 @@
-.header {
-  display: grid;
-  grid-template-columns: 6fr 2fr;
-  // &_title {
-  // }
+.users {
+  padding: 15px;
+  :nth-child(4n-7) {
+    background: #ffa801;
+  }
 
-  &_actions {
-    div {
-      margin: 10px 0;
+  :nth-child(3n) {
+    background: #05c46b;
+  }
+
+  &_user {
+    cursor: pointer;
+    border-radius: 50%;
+    margin: 4px;
+    display: inline-block;
+    padding: 0px;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    background: #0fbcf9;
+    color: white;
+    box-shadow: 0px 0px 10px #d3d3d3;
+    position: relative;
+    transition: 0.2s;
+    z-index: 1;
+
+    b {
+      text-transform: uppercase;
+      background: transparent !important;
     }
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    // align-items: center;
 
-    .delete {
-      background: #e84118;
-      color: white;
-      border: none;
+    &:hover {
+      z-index: 10;
     }
 
-    // &_btnContainer {
-    // }
+    &:hover &_tooltip {
+      opacity: 1 !important;
+    }
 
-    &_userContainer {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-      grid-row-gap: 10px;
+    &_tooltip {
+      position: absolute;
+      top: 90%;
+      right: 0;
+      opacity: 0 !important;
+      // background: #fbc531;
+      background: white;
+      color: black;
+      padding: 10px;
+      transition: 0.2s;
+      box-shadow: 0px 0px 10px #d3d3d3;
+      border-radius: 10px;
+      pointer-events: none;
 
-      :nth-child(4n-7) {
-        background: #ffa801;
+      p {
+        margin: 0;
       }
 
-      :nth-child(3n) {
-        background: #05c46b;
+      &_name {
+        color: #130f40;
+        background: white !important;
       }
 
-      span {
-        cursor: pointer;
-        border-radius: 50%;
-        margin: 0px 2px;
-        padding: 10px;
-        text-align: center;
-        background: #0fbcf9;
-        color: white;
-        box-shadow: 0px 0px 10px #d3d3d3;
-        position: relative;
-        transition: 0.2s;
-        width: 15px;
-        height: 15px;
-        position: relative;
-        z-index: 1;
-
-        b {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          text-transform: uppercase;
-          background: transparent;
-        }
-
-        &:hover {
-          transform: scale(1.1);
-          z-index: 10;
-        }
-
-        .user_tooltip {
-          position: absolute;
-          top: 90%;
-          right: 0;
-          opacity: 0;
-          // background: #fbc531;
-          background: white;
-          color: black;
-          padding: 10px;
-          transition: 0.2s;
-          box-shadow: 0px 0px 10px #d3d3d3;
-          border-radius: 10px;
-          pointer-events: none;
-
-          p {
-            margin: 0;
-          }
-
-          &_name {
-            color: #130f40;
-            background: white;
-          }
-
-          &_email {
-            color: grey;
-          }
-        }
-
-        &:hover .user_tooltip {
-          opacity: 1 !important;
-        }
+      &_email {
+        color: grey;
       }
     }
   }
 }
 
-hr {
-  margin-top: 2vh;
+.addmember {
+  margin-right: 2vh;
 }
 
 .search {
   &_input {
-    width: 30vw;
-    padding: 10px;
+    width: 20vw;
+    padding: 5px;
     border: 1px solid black;
     border-right: 0px;
   }
   button {
+    padding: 5px;
     width: 5vw;
   }
 }
 
 .userList {
-  border: 0.5px solid black;
+  border: 0.5px solid #3498db;
   width: 30vw;
   padding: 10px;
   cursor: pointer;
@@ -127,6 +95,10 @@ hr {
   &:hover {
     background: lightcyan;
   }
+}
+
+hr {
+  margin-top: 2vh;
 }
 
 .bug {
@@ -153,8 +125,8 @@ table {
   border-collapse: collapse;
   width: 100%;
   box-shadow: 0px 1px 10px #d3d3d3;
-  transform: scale(0.98);
-  margin-left: -2vh;
+  transform: scale(0.9) !important;
+  margin-left: -5vh;
 }
 
 td,
@@ -164,6 +136,7 @@ th {
   padding: 8px;
   transition: 0.2s;
   cursor: pointer;
+  margin: 0;
 }
 
 th {
@@ -174,7 +147,7 @@ td {
   color: #130f40;
   input,
   select {
-    border-color: #6c5ce7 !important;
+    border-color: #3498db !important;
     margin: 0;
     color: #130f40;
     border: none;
@@ -185,9 +158,6 @@ td {
 .devsColumn {
   max-width: 150px;
   min-width: 120px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .bug_title,
@@ -204,12 +174,12 @@ td {
   text-align: center;
   button {
     background: transparent;
-    color: #9a68f2;
+    color: #3498db;
     cursor: pointer;
     transition: 0.2s;
 
     &:hover {
-      background: #9a68f2;
+      background: #3498db;
       color: white;
     }
   }
@@ -221,11 +191,22 @@ td {
   }
 }
 
+.delete,
+.archive {
+  border-color: #e84118;
+  color: #e84118 !important;
+
+  &:hover {
+    background: #e84118 !important;
+    color: white !important;
+  }
+}
+
 .update {
   td {
     input,
     select {
-      padding: 10px;
+      padding: 4px;
       border: 0.5px solid black;
       pointer-events: all;
     }
@@ -245,7 +226,7 @@ td {
 
   &_container {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: auto auto auto;
     grid-gap: 2vh;
     margin-bottom: 2vh;
   }
@@ -254,6 +235,10 @@ td {
     border-radius: 5px;
     padding: 5px;
     cursor: pointer;
+
+    p {
+      margin: 0;
+    }
 
     &:hover {
       background: lightblue;
@@ -269,8 +254,8 @@ td {
     position: absolute;
     top: 0%;
     left: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     z-index: 20;
     color: transparent;
     background: rgba(black, 0.5);
@@ -310,4 +295,37 @@ td {
 
 .createBug {
   margin: 3vh 0;
+}
+
+@media only screen and (max-width: 600px) {
+  .topbtns {
+    display: flex;
+    flex-direction: flex-start;
+    margin-top: 2vh;
+  }
+
+  .search {
+    input {
+      border: 1px solid black;
+      width: 100%;
+    }
+    button {
+      width: 40%;
+      margin-top: 2vh;
+    }
+    .userList {
+      width: 100%;
+    }
+  }
+
+  table {
+    margin-left: -10vw;
+  }
+
+  .assignDevModal {
+    top: 50%;
+    &_container {
+      grid-template-columns: auto;
+    }
+  }
 }

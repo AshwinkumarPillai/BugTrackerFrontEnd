@@ -10,6 +10,7 @@ export class AppComponent implements OnChanges, OnInit {
   title = "BugTracker-frontend";
   loggedIn: boolean = false;
   sdopen: boolean = false;
+  sideMenu: boolean = false;
 
   constructor(private router: Router) {}
 
@@ -46,6 +47,16 @@ export class AppComponent implements OnChanges, OnInit {
       this.sdopen = false;
       let sidemenu = document.getElementById("sidemenu");
       sidemenu.style.transform = "scale(0)";
+    }
+  }
+
+  ToggleSidebar() {
+    this.sideMenu = !this.sideMenu;
+  }
+
+  closeSideBar() {
+    if (screen.width < 770) {
+      this.sideMenu = false;
     }
   }
 }
