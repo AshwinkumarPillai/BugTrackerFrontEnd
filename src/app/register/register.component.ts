@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ApiService } from "../services/api.service";
 import { Router } from "@angular/router";
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: "app-register",
@@ -9,21 +10,15 @@ import { Router } from "@angular/router";
 })
 export class RegisterComponent implements OnInit {
   message: any = "";
-  constructor(private api: ApiService, private router: Router) {}
+  constructor(
+    private api: ApiService,
+    private router: Router,
+    private spinner: NgxSpinnerService
+  ) {}
 
   ngOnInit() {}
 
-  register(
-    name,
-    email,
-    password,
-    contact,
-    designation,
-    github,
-    twitter,
-    portfolio,
-    linkedIn
-  ) {
+  register(name, email, password, contact, designation, github, twitter, portfolio, linkedIn ) {
     this.message = "";
 
     if (/^\s*$/.test(name.value)) {
@@ -62,8 +57,10 @@ export class RegisterComponent implements OnInit {
         linkedIn
       };
 
+      this.spinner.show();
       this.api.registerUser(data).subscribe((response: any) => {
         this.message = response.message;
+        this.spinner.hide();
         setTimeout(() => {
           if (response.status == 200) this.router.navigate(["/login/"]);
         }, 1000);
