@@ -8,13 +8,14 @@ import { HttpClient } from "@angular/common/http";
 // })
 @Injectable()
 export class ApiService {
-  // url: string = "http://localhost:3500";
-  url: string = "https://ash-bug-tracker.herokuapp.com";
+  url: string = "http://localhost:3500";
+  // url: string = "https://ash-bug-tracker.herokuapp.com";
   token: any;
   currentProject: any;
   currentBugs: any;
   currentUsers: any;
   viewUserId: any;
+  newExists: boolean;
 
   constructor(private httpClient: HttpClient) {}
 
@@ -76,6 +77,46 @@ export class ApiService {
       });
   }
 
+  forgotPassWord(data) {
+    return this.httpClient
+      .post(this.url + "/user/forgotPass", data)
+      .map((response: Response) => {
+        return response;
+      });
+  }
+
+  getInbox() {
+    return this.httpClient
+      .post(this.url + "/user/getInbox", {})
+      .map((response: Response) => {
+        return response;
+      });
+  }
+
+  markAsRead(data) {
+    return this.httpClient
+      .post(this.url + "/user/mark-as-read", data)
+      .map((response: Response) => {
+        return response;
+      });
+  }
+
+  markasNotNew() {
+    return this.httpClient
+      .post(this.url + "/user/markasNotNew", {})
+      .map((response: Response) => {
+        return response;
+      });
+  }
+
+  getNoOfinbox() {
+    return this.httpClient
+      .post(this.url + "/user/getNoOfinbox", {})
+      .map((response: Response) => {
+        return response;
+      });
+  }
+
   // Project Routes
   createProject(data) {
     return this.httpClient
@@ -112,6 +153,22 @@ export class ApiService {
   deleteProject(data) {
     return this.httpClient
       .post(this.url + "/project/delete", data)
+      .map((response: Response) => {
+        return response;
+      });
+  }
+
+  approveProject(data) {
+    return this.httpClient
+      .post(this.url + "/project/approveProject", data)
+      .map((response: Response) => {
+        return response;
+      });
+  }
+
+  rejectProject(data) {
+    return this.httpClient
+      .post(this.url + "/project/rejectProject", data)
       .map((response: Response) => {
         return response;
       });

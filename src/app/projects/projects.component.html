@@ -6,6 +6,7 @@
     <div class="col-12 col-md-6 actions topbtns">
       <button (click)="canSearch()" *ngIf="!search" class="addmember">Add member</button>
       <button (click)="deleteProject()" *ngIf="!search" class="delete">Delete Project</button>
+      <button (click)="changeRoles()">Change Roles</button>
     </div>
     <div class="col-12 col-md-6">
       <div *ngIf="search" class="search">
@@ -24,6 +25,7 @@
         <div class="users_user_tooltip">
           <p class="users_user_tooltip_name">{{user.userId.name}}</p>
           <p class="users_user_tooltip_email">({{user.userId.email}})</p>
+          <b>{{user.role}}</b>
         </div>
       </span>
     </div>
@@ -119,7 +121,7 @@
   <button (click)="CanceldevAssign()" class="assignDevModal_cancel">Cancel</button>
 </div>
 
-<div *ngIf="advcalled || showSolveArea || viewSolution" class="assignDevModal_backdrop"></div>
+<div *ngIf="advcalled || showSolveArea || viewSolution || changeRolesCalled" class="assignDevModal_backdrop"></div>
 
 <div *ngIf="showSolveArea" class="ViewSolution">
   <textarea name="" id="" cols="30" rows="10" #solution></textarea><br><br>
@@ -131,5 +133,32 @@
   <textarea name="" id="" cols="30" rows="10" #viewSolutionCode></textarea>
   <br><br>
   <button (click)="closeSolution()">Close</button>
+</div>
+
+<div *ngIf="changeRolesCalled" class="RoleUserContainer">
+  <div *ngIf="bugUsers.length ===0">
+    Currently there are no teammates in your project. Invite them by clicking add member button
+  </div>
+  <div *ngIf="bugUsers.length !==0">
+    Please select one of the users:
+    <hr>
+    <div *ngIf="showRoleDevs">
+      <div *ngFor="let user of bugUsers" class="role_devs" (click)="selectDevToChangeRole(user)">
+        <p>{{user.userId.name}}</p>
+        <p>{{user.role}}</p>
+      </div>
+    </div>
+    <div *ngIf="assignRoles">
+      <p>Name: <b>{{currentDev}}</b></p>
+      <P>Current Role: <b>{{currentRole}}</b></P>
+      <select name="" id="" #roleSelect>
+        <option value="" selected disabled hidden>{{currentRole}}</option>
+        <option value="dev">Developer</option>
+        <option value="admin">Admin</option>
+      </select>
+      <br><br>
+      <button (click)="changeRoleFinal(roleSelect)">Change Role</button>
+    </div>
+  </div>
 </div>
 <ngx-spinner></ngx-spinner>

@@ -29,6 +29,12 @@ export class ProjectsComponent implements OnInit {
   viewSolution: boolean = false;
   bugUsers: any[] = [];
   currentUserId: any;
+  changeRolesCalled: boolean = false;
+  showRoleDevs: boolean = false;
+  assignRoles: boolean = false;
+  currentDevId: any;
+  currentDev: String;
+  currentRole: String;
 
   constructor(
     private api: ApiService,
@@ -48,6 +54,7 @@ export class ProjectsComponent implements OnInit {
       console.log(this.currentUserId);
       this.spinner.show();
       let data = JSON.parse(localStorage.getItem("projectData"));
+      this.bugUsers = [];
       this.api.getOneProject(data).subscribe((response: any) => {
         this.project = response.project;
         this.users = response.users;
@@ -108,6 +115,7 @@ export class ProjectsComponent implements OnInit {
       const data = {
         projectId: this.project._id,
         newId: this.selectedUser._id,
+        projectName: this.project.title,
         role: "dev",
         isNew: true
       };
@@ -121,9 +129,8 @@ export class ProjectsComponent implements OnInit {
         } else {
           this.spinner.hide();
           this.input.nativeElement.value = "";
-          this.message = "Added member successfully";
+          this.message = "Invitation send successfully";
           this.ngOnInit();
-          // alert("Added Member Successfully!");
         }
       });
     }
@@ -142,10 +149,9 @@ export class ProjectsComponent implements OnInit {
       priority,
       status,
       screenShot: "",
-      deadline
+      deadline,
+      projectName: this.project.title
     };
-    // console.log(deadline);
-    // console.log(data);
     this.api.updateBug(data).subscribe((response: any) => {
       console.log(response);
       this.updateMap.delete(id);
@@ -163,7 +169,9 @@ export class ProjectsComponent implements OnInit {
 
   ArchiveBug(bug) {
     let data = {
-      bugId: bug._id
+      bugId: bug._id,
+      projectId: this.project._id,
+      projectName: this.project.title
     };
     let confirmArchive = confirm("Are you sure you want to archive this bug?");
     if (confirmArchive) {
@@ -197,7 +205,9 @@ export class ProjectsComponent implements OnInit {
     });
     let data = {
       bugId: this.currentBug,
-      dev
+      dev,
+      projectId: this.project._id,
+      projectName: this.project.title
     };
 
     this.advcalled = false;
@@ -230,7 +240,9 @@ export class ProjectsComponent implements OnInit {
       this.showSolveArea = false;
       let data = {
         bugId: this.currentBug,
-        solution: this.solution.nativeElement.value
+        solution: this.solution.nativeElement.value,
+        projectId: this.project._id,
+        projectName: this.project.title
       };
       this.solution.nativeElement.value = "";
       this.currentBug = "";
@@ -281,7 +293,50 @@ export class ProjectsComponent implements OnInit {
 
       this.api.deleteProject(data).subscribe((response: any) => {
         console.log(response.message);
-        this.router.navigate(["/"]);
+        if (response.statusCode == 307) {
+          alert(response.message);
+        } else {
+          this.router.navigate(["/"]);
+        }
+      });
+    }
+  }
+
+  changeRoles() {
+    this.changeRolesCalled = true;
+    this.showRoleDevs = true;
+  }
+
+  selectDevToChangeRole(user) {
+    this.showRoleDevs = false;
+    this.assignRoles = true;
+    this.currentDevId = user.userId._id;
+    this.currentDev = user.userId.name;
+    this.currentRole = user.role;
+  }
+
+  changeRoleFinal(element) {
+    if (!element.value) {
+    } else {
+      let data = {
+        projectId: this.project._id,
+        projectName: this.project.title,
+        newId: this.currentDevId,
+        role: String(element.value),
+        isNew: false
+      };
+
+      this.api.addBuddy(data).subscribe((response: any) => {
+        this.currentDevId = null;
+        this.currentDev = "";
+        this.currentRole = "";
+        this.changeRolesCalled = false;
+        this.showRoleDevs = false;
+        this.assignRoles = false;
+        if (response.message) {
+          alert(response.message);
+        }
+        this.ngOnInit();
       });
     }
   }

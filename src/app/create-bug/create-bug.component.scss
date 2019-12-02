@@ -85,3 +85,9 @@ $margin-required: 2vh;
   margin: $margin-required;
   width: 10vw;
 }
+
+@media only screen and (max-width: 772px) {
+  .createBtn {
+    width: 50vw;
+  }
+}

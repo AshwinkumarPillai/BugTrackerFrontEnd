@@ -1,0 +1,92 @@
+<div class="container-fluid" [ngClass]="{emptyContainer: empty}">
+  <div *ngIf="empty" class="empty">
+    Your inbox is empty! 😀
+  </div>
+  <div *ngFor="let message of inbox" [ngClass]="{newMessageBg: message.newMessage}">
+
+    <!-- Project -->
+    <div class="row type type type-1" *ngIf="message.type === 1" [ngClass]="{read: message.read}">
+      <div class="col-2">
+        <i class="fa fa-pie-chart" aria-hidden="true"></i>
+      </div>
+      <div class="col-6">
+        <h3>{{message.title}}</h3>
+        <p>{{message.message}}</p>
+        <ul>
+          <li>Project Name: <b class="specifics">{{message.projName}}</b></li>
+          <li>Project Owner: <b class="specifics">{{message.sourceName}}</b></li>
+        </ul>
+        <div class="actions">
+          <button class="accept" (click)="acceptProject(message)">Accept Project</button>
+          <button class="reject" (click)="rejectProject(message)">Reject Project</button>
+        </div>
+      </div>
+      <div class="col-4">
+        <button class="btn btn_read" *ngIf="!message.read" (click)="markAsRead(message,false)">Mark as read</button>
+      </div>
+    </div>
+
+    <!-- Bug -->
+    <div class="row type type-2" *ngIf="message.type === 2 || message.type === 3" [ngClass]="{read: message.read}">
+      <div class="col-2">
+        <i class="fa fa-bug" aria-hidden="true"></i>
+      </div>
+      <div class="col-6">
+        <h3>{{message.title}}</h3>
+        <p>{{message.message}}</p>
+        <ul>
+          <li>Project Name: <b>{{message.projName}}</b></li>
+          <li>Assigned By: <b>{{message.sourceName}}</b></li>
+        </ul>
+      </div>
+      <div class="col-4">
+        <button class="btn btn_read" *ngIf="!message.read" (click)="markAsRead(message,false)">Mark as read</button>
+        <button class="btn btn_delete" (click)="markAsRead(message,true)">Delete message</button>
+      </div>
+    </div>
+
+    <!-- Success -->
+
+    <div class="row type type-4" *ngIf="message.type === 4" [ngClass]="{read: message.read}">
+      <div class="col-2">
+        <i class="fa fa-user-plus" aria-hidden="true"></i>
+      </div>
+      <div class="col-6">
+        <h3>{{message.title}}</h3>
+        <p>{{message.message}}</p>
+        <ul>
+          <li>Project Name: <b>{{message.projName}}</b></li>
+          <li>Accepted By : <b>{{message.sourceName}}</b></li>
+        </ul>
+      </div>
+      <div class="col-4">
+        <button class="btn btn_read" *ngIf="!message.read" (click)="markAsRead(message,false)">Mark as read</button>
+        <button class="btn btn_delete" (click)="markAsRead(message,true)">Delete message</button>
+      </div>
+    </div>
+
+    <!-- Danger -->
+    <div class="row type type-5" *ngIf="message.type === 5 || message.type === 6" [ngClass]="{read: message.read}">
+      <div class="col-2">
+        <i class="fa fa-exclamation-circle" aria-hidden="true" *ngIf="message.type === 5"></i>
+        <i class="fa fa-user-times" aria-hidden="true" *ngIf="message.type === 6"></i>
+      </div>
+      <div class="col-6">
+        <h3>{{message.title}}</h3>
+        <p>{{message.message}}</p>
+        <ul>
+          <li>Project Name: <b>{{message.projName}}</b></li>
+          <li>Action By: <b>{{message.sourceName}}</b></li>
+        </ul>
+      </div>
+      <div class="col-4">
+        <button class="btn btn_read" *ngIf="!message.read" (click)="markAsRead(message,false)">Mark as read</button>
+        <button class="btn btn_delete" (click)="markAsRead(message,true)">Delete message</button>
+      </div>
+    </div>
+
+    <hr *ngIf="message.newMessage">
+  </div>
+</div>
+
+<ngx-spinner></ngx-spinner>

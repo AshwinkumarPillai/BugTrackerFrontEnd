@@ -1,35 +1,43 @@
-import { Component, OnInit, OnChanges } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { ApiService } from "./services/api.service";
 
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.scss"]
 })
-export class AppComponent implements OnChanges, OnInit {
-  title = "BugTracker-frontend";
-  loggedIn: boolean = false;
+export class AppComponent implements OnInit {
+  title = "AshBugTracker";
   sdopen: boolean = false;
   sideMenu: boolean = false;
+  inboxNum: number = 0;
+  loggedIn = Boolean(localStorage.getItem("currentUser"));
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private api: ApiService) {}
 
   ngOnInit() {
     if (localStorage.getItem("currentUser")) {
-      this.loggedIn = true;
+      this.countInbox();
     }
   }
 
-  ngOnChanges() {
-    if (localStorage.getItem("currentUSer")) {
-      this.loggedIn = true;
-    }
+  countInbox() {
+    this.api.getNoOfinbox().subscribe((response: any) => {
+      this.inboxNum = response.num;
+      if (this.inboxNum > 0) {
+        this.api.newExists = true;
+      } else {
+        this.api.newExists = false;
+      }
+    });
   }
 
   logOut() {
     localStorage.clear();
+    this.inboxNum = 0;
+    this.loggedIn = null;
     this.router.navigate(["/login/"]);
-    this.loggedIn = false;
   }
 
   logIn() {
@@ -55,8 +63,11 @@ export class AppComponent implements OnChanges, OnInit {
   }
 
   closeSideBar() {
-    if (screen.width < 770) {
+    if (screen.width < 800) {
       this.sideMenu = false;
+    }
+    if (localStorage.getItem("currentUser")) {
+      this.countInbox();
     }
   }
 }

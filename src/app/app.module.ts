@@ -16,8 +16,9 @@ import { AuthInterceptor } from "./services/auth.interceptor";
 import { CreateBugComponent } from "./create-bug/create-bug.component";
 import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
 import { NgxSpinnerModule } from "ngx-spinner";
-import { ProfileComponent } from './profile/profile.component';
-import { ViewProfileComponent } from './view-profile/view-profile.component';
+import { ProfileComponent } from "./profile/profile.component";
+import { ViewProfileComponent } from "./view-profile/view-profile.component";
+import { InboxComponent } from './inbox/inbox.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ViewProfileComponent } from './view-profile/view-profile.component';
     CreateBugComponent,
     PageNotFoundComponent,
     ProfileComponent,
-    ViewProfileComponent
+    ViewProfileComponent,
+    InboxComponent
   ],
   imports: [
     BrowserModule,

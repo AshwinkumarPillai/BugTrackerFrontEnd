@@ -1,4 +1,9 @@
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from "@angular/common/http";
+import {
+  HttpInterceptor,
+  HttpRequest,
+  HttpHandler,
+  HttpEvent
+} from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { ApiService } from "./api.service";
@@ -6,7 +11,10 @@ import { ApiService } from "./api.service";
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   //   constructor(private api: ApiService) {}
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(
+    req: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
     // throw new Error("Method not implemented.");
 
     if (localStorage.getItem("currentUser")) {

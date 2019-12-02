@@ -18,18 +18,25 @@
                 </a>
             </li>
             <li (click)="closeSideBar()">
+                <a routerLink="/inbox" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                    Inbox
+                    <span class="Inboxnumber" [ngClass]="{zeroInbox: !inboxNum}" *ngIf="loggedIn">{{inboxNum}}</span>
+                </a>
+            </li>
+            <li (click)="closeSideBar()">
                 <a routerLink="/project" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
                     <i class="fa fa-tasks" aria-hidden="true"></i>
                     Recent Project
                 </a>
             </li>
-            <li (click)="closeSideBar()">
+            <li (click)="closeSideBar()" *ngIf="!loggedIn">
                 <a routerLink="/login" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
                     <i class="fa fa-angle-double-right" aria-hidden="true"></i>
                     Login
                 </a>
             </li>
-            <li (click)="closeSideBar()">
+            <li (click)="closeSideBar()" *ngIf="loggedIn">
                 <a (click)="logOut()" style="cursor: pointer;" class="logout">
                     <i class="fa fa-sign-out" aria-hidden="true"></i>
                     Logout

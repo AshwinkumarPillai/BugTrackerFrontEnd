@@ -19,7 +19,11 @@ export class LoginComponent implements OnInit {
     private spinner: NgxSpinnerService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (localStorage.getItem("currentUser")) {
+      this.router.navigate(["/"]);
+    }
+  }
 
   login(email, password) {
     if (/^\s*$/.test(email)) {
@@ -39,14 +43,17 @@ export class LoginComponent implements OnInit {
           this.api.token = response.token;
           localStorage.setItem(
             "currentUser",
-            JSON.stringify({ token: response.token })
+            JSON.stringify({ token: response.token, loggedIn: true })
           );
           localStorage.setItem(
             "userdata",
             JSON.stringify({ userdata: response.userdata })
           );
           this.spinner.hide();
+          location.reload();
           this.router.navigate(["/"]);
+        } else {
+          this.spinner.hide();
         }
       });
     }
@@ -67,6 +74,10 @@ export class LoginComponent implements OnInit {
       let data = {
         email: this.fgemail.nativeElement.value
       };
+      this.api.forgotPassWord(data).subscribe((response: any) => {
+        alert(response.message);
+        this.router.navigate(["/login/"]);
+      });
     }
   }
 

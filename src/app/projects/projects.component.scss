@@ -202,6 +202,10 @@ td {
   }
 }
 
+.delete {
+  margin-right: 2vh;
+}
+
 .update {
   td {
     input,
@@ -297,6 +301,29 @@ td {
   margin: 3vh 0;
 }
 
+.RoleUserContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  z-index: 30;
+  width: 50vh;
+  height: 50vh;
+  padding: 10px;
+  .role_devs {
+    padding: 5px;
+    background: #7f8fa6;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+
+    &:hover {
+      transform: scale(1.01);
+    }
+  }
+}
+
 @media only screen and (max-width: 600px) {
   .topbtns {
     display: flex;
@@ -320,6 +347,13 @@ td {
 
   table {
     margin-left: -10vw;
+  }
+
+  .update {
+    input,
+    select {
+      background: white !important;
+    }
   }
 
   .assignDevModal {

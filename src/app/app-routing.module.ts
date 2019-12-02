@@ -8,6 +8,7 @@ import { CreateBugComponent } from "./create-bug/create-bug.component";
 import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
 import { ProfileComponent } from "./profile/profile.component";
 import { ViewProfileComponent } from "./view-profile/view-profile.component";
+import { InboxComponent } from "./inbox/inbox.component";
 
 const routes: Routes = [
   { path: "", component: DashboardComponent },
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: "profile", component: ProfileComponent },
   { path: "bug/new", component: CreateBugComponent },
   { path: "viewProfile", component: ViewProfileComponent },
+  { path: "inbox", component: InboxComponent },
   { path: "**", component: PageNotFoundComponent }
 ];
 
