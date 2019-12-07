@@ -33,10 +33,12 @@ export class DashboardComponent implements OnInit {
     let data = {
       title
     };
+    this.spinner.show();
     this.api.createProject(data).subscribe(() => {
       this.api.getAllProject().subscribe((response: any) => {
         this.projects = response.projects;
         this.projectName.nativeElement.value = "";
+        this.spinner.hide();
       });
     });
   }

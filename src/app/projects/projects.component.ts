@@ -35,6 +35,8 @@ export class ProjectsComponent implements OnInit {
   currentDevId: any;
   currentDev: String;
   currentRole: String;
+  btndropdown: boolean = false;
+  removeDev: boolean = false;
 
   constructor(
     private api: ApiService,
@@ -51,7 +53,6 @@ export class ProjectsComponent implements OnInit {
       this.currentUserId = JSON.parse(
         localStorage.getItem("userdata")
       ).userdata._id;
-      console.log(this.currentUserId);
       this.spinner.show();
       let data = JSON.parse(localStorage.getItem("projectData"));
       this.bugUsers = [];
@@ -59,6 +60,7 @@ export class ProjectsComponent implements OnInit {
         this.project = response.project;
         this.users = response.users;
         this.bugs = response.bugs;
+        console.log(this.bugs);
         this.users.forEach(user => {
           if (user.role !== "owner") {
             this.bugUsers.push(user);
@@ -121,7 +123,6 @@ export class ProjectsComponent implements OnInit {
       };
 
       this.api.addBuddy(data).subscribe((response: any) => {
-        console.log(response);
         if (response.message) {
           this.message = response.message;
           this.input.nativeElement.value = "";
@@ -153,14 +154,16 @@ export class ProjectsComponent implements OnInit {
       projectName: this.project.title
     };
     this.api.updateBug(data).subscribe((response: any) => {
-      console.log(response);
       this.updateMap.delete(id);
       this.ngOnInit();
     });
   }
 
-  ddchange(h) {
-    console.log(h);
+  watchBug(bug) {
+    this.api.watchBug({ bugId: bug._id }).subscribe((response: any) => {
+      console.log(response);
+      this.ngOnInit();
+    });
   }
 
   cancel(id) {
@@ -176,7 +179,6 @@ export class ProjectsComponent implements OnInit {
     let confirmArchive = confirm("Are you sure you want to archive this bug?");
     if (confirmArchive) {
       this.api.archiveBug(data).subscribe((response: any) => {
-        console.log(response);
         this.ngOnInit();
       });
     }
@@ -215,7 +217,6 @@ export class ProjectsComponent implements OnInit {
     this.assignDevMaps.clear();
 
     this.api.assignBugToDevs(data).subscribe((response: any) => {
-      console.log(response);
       this.bugUsers = [];
       this.ngOnInit();
     });
@@ -247,7 +248,6 @@ export class ProjectsComponent implements OnInit {
       this.solution.nativeElement.value = "";
       this.currentBug = "";
       this.api.submitSolution(data).subscribe((response: any) => {
-        console.log(response);
         this.ngOnInit();
       });
     }
@@ -283,6 +283,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   deleteProject() {
+    this.btnContainer();
     let confirmation = confirm(
       "Are you sure you want to detele the project? This action cannot be reverted."
     );
@@ -292,10 +293,10 @@ export class ProjectsComponent implements OnInit {
       };
 
       this.api.deleteProject(data).subscribe((response: any) => {
-        console.log(response.message);
         if (response.statusCode == 307) {
           alert(response.message);
         } else {
+          localStorage.removeItem("projectData");
           this.router.navigate(["/"]);
         }
       });
@@ -303,16 +304,26 @@ export class ProjectsComponent implements OnInit {
   }
 
   changeRoles() {
+    this.btnContainer();
     this.changeRolesCalled = true;
     this.showRoleDevs = true;
   }
 
   selectDevToChangeRole(user) {
-    this.showRoleDevs = false;
-    this.assignRoles = true;
     this.currentDevId = user.userId._id;
     this.currentDev = user.userId.name;
-    this.currentRole = user.role;
+    if (this.removeDev) {
+      let confirmRemoval = confirm(
+        "Are you sure, you want to remove this member from your project?"
+      );
+      if (confirmRemoval) {
+        this.removeMember();
+      }
+    } else {
+      this.showRoleDevs = false;
+      this.assignRoles = true;
+      this.currentRole = user.role;
+    }
   }
 
   changeRoleFinal(element) {
@@ -327,16 +338,71 @@ export class ProjectsComponent implements OnInit {
       };
 
       this.api.addBuddy(data).subscribe((response: any) => {
-        this.currentDevId = null;
-        this.currentDev = "";
-        this.currentRole = "";
-        this.changeRolesCalled = false;
-        this.showRoleDevs = false;
-        this.assignRoles = false;
         if (response.message) {
+          this.cancelRole();
           alert(response.message);
         }
         this.ngOnInit();
+      });
+    }
+  }
+
+  cancelRole() {
+    this.currentDevId = null;
+    this.currentDev = "";
+    this.currentRole = "";
+    this.changeRolesCalled = false;
+    this.showRoleDevs = false;
+    this.assignRoles = false;
+  }
+
+  btnContainer() {
+    this.btndropdown = !this.btndropdown;
+    let dropdown = document.getElementById("btnDrop");
+    if (this.btndropdown) {
+      dropdown.style.display = "block";
+    } else {
+      dropdown.style.display = "none";
+    }
+  }
+
+  initializeRemoveMember() {
+    this.btnContainer();
+    this.changeRolesCalled = true;
+    this.showRoleDevs = true;
+    this.removeDev = true;
+  }
+
+  removeMember() {
+    let data = {
+      remove: true,
+      projectId: this.project._id,
+      userId: this.currentDevId,
+      projectName: this.project.title
+    };
+    this.removeDev = false;
+    this.cancelRole();
+
+    this.api.removeBuddy(data).subscribe((response: any) => {
+      alert(
+        "It will take some time to remove the user from all bugs. Thank you for cooperation"
+      );
+      this.ngOnInit();
+    });
+  }
+
+  exitProject() {
+    let confirmExit = confirm("Are you sure you want to exit from project?");
+    if (confirmExit) {
+      let data = {
+        remove: false,
+        projectId: this.project._id,
+        projectName: this.project.title
+      };
+      this.api.removeBuddy(data).subscribe((response: any) => {
+        console.log(response);
+        localStorage.removeItem("projectData");
+        this.router.navigate(["/"]);
       });
     }
   }

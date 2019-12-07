@@ -5,8 +5,18 @@
     </div>
     <div class="col-12 col-md-6 actions topbtns">
       <button (click)="canSearch()" *ngIf="!search" class="addmember">Add member</button>
-      <button (click)="deleteProject()" *ngIf="!search" class="delete">Delete Project</button>
-      <button (click)="changeRoles()">Change Roles</button>
+
+      <span class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" (click)="btnContainer()">
+          Actions
+          <span class="caret"></span></button>
+        <ul class="dropdown-menu" id="btnDrop">
+          <li (click)="changeRoles()">Change Roles</li>
+          <li (click)="exitProject()" class="red">Exit Project</li>
+          <li (click)="initializeRemoveMember()" class="red">Remove member</li>
+          <li (click)="deleteProject()" class="red">Delete Project</li>
+        </ul>
+      </span>
     </div>
     <div class="col-12 col-md-6">
       <div *ngIf="search" class="search">
@@ -53,6 +63,7 @@
       <th>Status</th>
       <th>Deadline</th>
       <th>Devs</th>
+      <!-- <th class="actions">Watch</th> -->
       <th class="actions">Solve</th>
       <th class="actions">Assign Dev</th>
       <th class="actions">Edit</th>
@@ -91,6 +102,9 @@
           <br>
         </span>
       </td>
+      <!-- <td class="watch" [ngClass]="{temp: bug.watch}">
+        <input type="checkbox" [checked]="bug.watch" (click)="watchBug(bug)">
+      </td> -->
       <td class="actions">
         <button *ngIf="!bug.solution" (click)="solveBug(bug)">Solve</button>
         <button *ngIf="bug.solution" (click)="ViewSolution(bug)">View Solution</button>
@@ -159,6 +173,7 @@
       <br><br>
       <button (click)="changeRoleFinal(roleSelect)">Change Role</button>
     </div>
-  </div>
+  </div><br><br>
+  <button (click)="cancelRole()">Cancel</button>
 </div>
 <ngx-spinner></ngx-spinner>

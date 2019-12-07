@@ -135,7 +135,7 @@ th {
   text-align: left;
   padding: 8px;
   transition: 0.2s;
-  cursor: pointer;
+  cursor: default;
   margin: 0;
 }
 
@@ -320,6 +320,39 @@ td {
 
     &:hover {
       transform: scale(1.01);
+    }
+  }
+}
+
+.watch {
+  pointer-events: all !important;
+  position: relative;
+  input[type="checkbox"] {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(2);
+    cursor: pointer;
+    pointer-events: all !important;
+  }
+}
+
+#btnDrop {
+  .red {
+    color: #e84118;
+
+    &:hover {
+      background: #e84118;
+    }
+  }
+
+  li {
+    padding: 10px;
+
+    &:hover {
+      background: #3498db;
+      color: white;
+      cursor: pointer;
     }
   }
 }
