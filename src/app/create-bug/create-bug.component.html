@@ -22,12 +22,12 @@
       <option value="Critical">Critical</option>
     </select>
   </div>
-  <div>
+  <!-- <div>
     <label for="">Deadline</label>
-  </div>
-  <div>
+  </div> -->
+  <!-- <div>
     <input type="date" #deadline>
-  </div>
+  </div> -->
   <div>
     <label for="">
       Watch:
@@ -54,4 +54,5 @@
 <div *ngIf="users.length === 0" style="margin: 5vh 2vh;">You don't have any teammates yet!</div>
 
 <button (click)="create(title.value,subtitle.value,deadline.value)" class="createBtn">Create</button>
+<button (click)="cancelAction()" class="createBtn">Cancel</button>
 <ngx-spinner></ngx-spinner>

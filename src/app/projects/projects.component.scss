@@ -1,3 +1,6 @@
+.superContainer {
+  position: relative;
+}
 .users {
   padding: 15px;
   :nth-child(4n-7) {
@@ -219,14 +222,20 @@ td {
 
 .assignDevModal {
   position: absolute;
-  top: 30%;
+  top: 60%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 30;
   background: white;
   border-radius: 5px;
   width: 60vw;
+  height: 70vh;
   padding: 20px;
+
+  &_list {
+    height: 80%;
+    overflow-y: scroll;
+  }
 
   &_container {
     display: grid;
@@ -234,18 +243,15 @@ td {
     grid-gap: 2vh;
     margin-bottom: 2vh;
   }
+
   &_dev {
     border: 0.5px solid #9a68f2;
     border-radius: 5px;
-    padding: 5px;
+    padding: 10px;
     cursor: pointer;
 
     p {
       margin: 0;
-    }
-
-    &:hover {
-      background: lightblue;
     }
   }
 
@@ -253,26 +259,24 @@ td {
     margin-right: 10px;
     transition: 0.2s;
   }
+}
 
-  &_backdrop {
-    position: absolute;
-    top: 0%;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 20;
-    color: transparent;
-    background: rgba(black, 0.5);
-  }
+.overlay_backdrop {
+  position: absolute;
+  top: 0%;
+  left: 0;
+  width: 100%;
+  height: 94vh;
+  z-index: 20;
+  color: transparent;
+  background: rgba(black, 0.5);
+  overflow: hidden;
 }
 
 .selectedDevs {
   background: #3498db;
   background: #fbc531;
   color: white;
-  &:hover {
-    background: rgba(#fbc531, 0.7);
-  }
 }
 
 .ViewSolution {
@@ -358,6 +362,25 @@ td {
 }
 
 @media only screen and (max-width: 600px) {
+  .assignDevModal {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    z-index: 30;
+    background: white;
+    border-radius: 5px;
+    width: 100vw;
+    height: 100vh;
+    padding: 20px;
+
+    &_container {
+      display: grid;
+      grid-template-columns: auto auto auto;
+      grid-gap: 2vh;
+      margin-bottom: 2vh;
+    }
+  }
+
   .topbtns {
     display: flex;
     flex-direction: flex-start;
@@ -388,11 +411,20 @@ td {
       background: white !important;
     }
   }
+}
 
+@media only screen and (min-width: 600px) {
   .assignDevModal {
-    top: 50%;
-    &_container {
-      grid-template-columns: auto;
+    &_dev {
+      &:hover {
+        background: lightblue;
+      }
+    }
+  }
+
+  .selectedDevs {
+    &:hover {
+      background: rgba(#424242, 0.7);
     }
   }
 }

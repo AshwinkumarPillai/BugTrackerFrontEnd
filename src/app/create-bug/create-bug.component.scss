@@ -35,7 +35,7 @@ $margin-required: 2vh;
 
   &_container {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-gap: 10px;
   }
 
@@ -48,12 +48,6 @@ $margin-required: 2vh;
     transition: 0.2s;
     border-radius: 10px;
     box-shadow: 0px 0px 10px #d3d3d3;
-
-    &:hover {
-      background: rgba(orange, 0.7);
-      color: white;
-      border-color: transparent;
-    }
 
     h5,
     p {
@@ -74,11 +68,6 @@ $margin-required: 2vh;
   p {
     color: black;
   }
-
-  &:hover {
-    background: rgba(green, 0.6);
-    border-color: transparent;
-  }
 }
 
 .createBtn {
@@ -89,5 +78,40 @@ $margin-required: 2vh;
 @media only screen and (max-width: 772px) {
   .createBtn {
     width: 50vw;
+  }
+
+  .devList {
+    &_container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 10px;
+    }
+  }
+}
+
+@media only screen and (min-width: 772px) {
+  .selectedDev {
+    background: green;
+    color: white;
+    border-color: transparent;
+    // color: black;
+    p {
+      color: black;
+    }
+
+    &:hover {
+      background: rgba(green, 0.6) !important;
+      border-color: transparent;
+    }
+  }
+
+  .devList {
+    &_devs {
+      &:hover {
+        background: rgba(orange, 0.7);
+        color: white;
+        border-color: transparent;
+      }
+    }
   }
 }

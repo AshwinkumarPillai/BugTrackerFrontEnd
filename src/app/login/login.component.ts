@@ -37,25 +37,34 @@ export class LoginComponent implements OnInit {
         password
       };
       this.spinner.show();
-      this.api.loginUser(data).subscribe((response: any) => {
-        this.message = response.message;
-        if (response.token) {
-          this.api.token = response.token;
-          localStorage.setItem(
-            "currentUser",
-            JSON.stringify({ token: response.token, loggedIn: true })
-          );
-          localStorage.setItem(
-            "userdata",
-            JSON.stringify({ userdata: response.userdata })
-          );
-          this.spinner.hide();
-          location.reload();
-          this.router.navigate(["/"]);
-        } else {
-          this.spinner.hide();
-        }
-      });
+      let flag = 0;
+      setTimeout(() => {
+        console.log(flag);
+        if (flag == 0) alert("Looks like you are not connected to internet");
+      }, 10000);
+
+      if (flag == 0) {
+        this.api.loginUser(data).subscribe((response: any) => {
+          flag = 1;
+          this.message = response.message;
+          if (response.token) {
+            this.api.token = response.token;
+            localStorage.setItem(
+              "currentUser",
+              JSON.stringify({ token: response.token, loggedIn: true })
+            );
+            localStorage.setItem(
+              "userdata",
+              JSON.stringify({ userdata: response.userdata })
+            );
+            this.spinner.hide();
+            location.reload();
+            this.router.navigate(["/"]);
+          } else {
+            this.spinner.hide();
+          }
+        });
+      }
     }
   }
 

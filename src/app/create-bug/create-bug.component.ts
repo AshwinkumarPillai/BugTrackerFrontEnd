@@ -86,4 +86,8 @@ export class CreateBugComponent implements OnInit {
       this.devs.set(id, user);
     }
   }
+
+  cancelAction() {
+    this.router.navigate(["/project/"]);
+  }
 }

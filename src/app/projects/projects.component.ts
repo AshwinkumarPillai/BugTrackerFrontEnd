@@ -69,6 +69,10 @@ export class ProjectsComponent implements OnInit {
         this.spinner.hide();
       });
     }
+
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 8000);
   }
 
   createBug() {
