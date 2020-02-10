@@ -146,7 +146,7 @@ export class ProjectsComponent implements OnInit {
     this.updateMap.set(id, true);
   }
 
-  updateBug(bugId, id, title, subtitle, priority, status, deadline) {
+  updateBug(bugId, id, title, subtitle, priority, status) {
     let data = {
       bugId,
       title,
@@ -154,7 +154,6 @@ export class ProjectsComponent implements OnInit {
       priority,
       status,
       screenShot: "",
-      deadline,
       projectName: this.project.title
     };
     this.api.updateBug(data).subscribe((response: any) => {

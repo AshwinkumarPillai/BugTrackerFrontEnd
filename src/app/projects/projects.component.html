@@ -113,7 +113,7 @@
         <td class="actions"><button (click)=AssignDev(bug)>Assign Dev</button></td>
         <td class="actions">
           <button *ngIf="updateMap.get(i)"
-            (click)="updateBug(bug._id,i,bugTitle.value, bugsubTitle.value,bugPriority.selectedOptions[0].text,bugStatus.selectedOptions[0].text,bugDeadline.value)"
+            (click)="updateBug(bug._id,i,bugTitle.value, bugsubTitle.value,bugPriority.selectedOptions[0].text,bugStatus.selectedOptions[0].text)"
             class="actions_update">Update</button>
           <button *ngIf="updateMap.get(i)" (click)="cancel(i)" class="actions_cancel">Cancel</button>
           <button (click)="editBug(bug, i)" *ngIf="!updateMap.get(i)">Edit</button>
