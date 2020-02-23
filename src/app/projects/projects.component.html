@@ -7,17 +7,19 @@
       <div class="col-12 col-md-6 actions topbtns">
         <button (click)="canSearch()" *ngIf="!search" class="addmember">Add member</button>
 
-        <span class="dropdown">
-          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" (click)="btnContainer()">
-            Actions
-            <span class="caret"></span></button>
-          <ul class="dropdown-menu" id="btnDrop">
-            <li (click)="changeRoles()">Change Roles</li>
-            <li (click)="exitProject()" class="red">Exit Project</li>
-            <li (click)="initializeRemoveMember()" class="red">Remove member</li>
-            <li (click)="deleteProject()" class="red">Delete Project</li>
-          </ul>
-        </span>
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            Action
+          </button>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" (click)="showModal($event,1,null)">Change Roles</a>
+            <a class="dropdown-item red" (click)="showModal($event,2,null)">Remove member</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item red" (click)="exitProject()">Exit Project</a>
+            <a class="dropdown-item red" (click)="deleteProject()">Delete Project</a>
+          </div>
+        </div>
       </div>
       <div class="col-12 col-md-6">
         <div *ngIf="search" class="search">
@@ -72,8 +74,9 @@
       </tr>
       <tr *ngFor="let bug of bugs;let i=index" [ngClass]="{update:updateMap.get(i)}">
         <td>{{i+1}}.</td>
-        <td class="bug_title"><input type="text" value="{{bug.title}}" #bugTitle></td>
-        <td class="bug_subTitle">
+        <td class="bug_title" style="pointer-events: all !important;" (click)="showSubtitleContent(bug.title)"><input
+            type="text" value="{{bug.title}}" #bugTitle></td>
+        <td class="bug_subTitle" style="pointer-events: all !important;" (click)="showSubtitleContent(bug.subtitle)">
           <span *ngIf="!bug.subtitle && !updateMap.get(i)">---</span>
           <input type="text" value="{{bug.subtitle}}" #bugsubTitle>
         </td>
@@ -107,10 +110,10 @@
         <input type="checkbox" [checked]="bug.watch" (click)="watchBug(bug)">
       </td> -->
         <td class="actions">
-          <button *ngIf="!bug.solution" (click)="solveBug(bug)">Solve</button>
-          <button *ngIf="bug.solution" (click)="ViewSolution(bug)">View Solution</button>
+          <button *ngIf="!bug.solution" (click)="showModal($event,3,bug)">Solve</button>
+          <button *ngIf="bug.solution" (click)="showModal($event,4,bug)">View Solution</button>
         </td>
-        <td class="actions"><button (click)=AssignDev(bug)>Assign Dev</button></td>
+        <td class="actions"><button (click)=showModal($event,5,bug)>Assign Dev</button></td>
         <td class="actions">
           <button *ngIf="updateMap.get(i)"
             (click)="updateBug(bug._id,i,bugTitle.value, bugsubTitle.value,bugPriority.selectedOptions[0].text,bugStatus.selectedOptions[0].text)"
@@ -123,75 +126,83 @@
     </table>
   </div>
 
-  <div *ngIf="advcalled || showSolveArea || viewSolution || changeRolesCalled" class="overlay_backdrop" id="overlay">
+  <!-- ============================= Popup Modal =============================================== -->
+
+  <div *ngIf="dispbackdrop" class="overlay_backdrop">
   </div>
 
-  <!-- <div *ngIf="advcalled" class="assignDevModal">
-  <div class="assignDevModal_container">
+  <div *ngIf="dispbackdrop" class="popupModal">
+    <div class="popupModal_content">
+      <h2 class="popupModal_content_head">{{modal_heading}}</h2>
 
-    <div *ngFor="let user of bugUsers;let n=index" class="assignDevModal_dev"
-      [ngClass]="{selectedDevs: assignDevMaps.get(user.userId._id)}" (click)="selectDev(user, user.userId._id)">
-      <p class="assignDevModal_dev_name">{{user.userId.name}}</p>
-      <p class="assignDevModal_dev_email">{{user.userId.email}}</p>
-    </div>
-  </div>
-  <button (click)="assignBugToDevs()" class="assignDevModal_assign">Assign</button>
-  <button (click)="CanceldevAssign()" class="assignDevModal_cancel">Cancel</button>
-</div> -->
+      <div *ngIf="actionNumber == 1" class="actionPage_1">
+        <h5 *ngIf="teammates.length === 0"> You don't have any teammates yet! Add members to your project to see them
+        </h5>
 
-  <div *ngIf="advcalled" class="assignDevModal">
-    <h4 *ngIf="bugUsers.length == 0">You do not have any teammates yet! Add teammates to project to asssign bugs to them
-    </h4>
-    <div class="assignDevModal_list">
-      <div *ngFor="let user of bugUsers;let n=index" class="assignDevModal_dev"
-        [ngClass]="{selectedDevs: assignDevMaps.get(user.userId._id)}" (click)="selectDev(user, user.userId._id)">
-        <p>{{user.userId.name}}</p>
-        <p>{{user.userId.email}}</p>
-      </div>
-    </div>
-    <br>
-    <button (click)="assignBugToDevs()" class="assignDevModal_assign">Assign</button>
-    <button (click)="CanceldevAssign()" class="assignDevModal_cancel">Cancel</button>
-  </div>
+        <h5 *ngIf="showUserList">Select one the team mate to change their role</h5>
 
-  <div *ngIf="showSolveArea" class="ViewSolution">
-    <textarea name="" id="" cols="30" rows="10" #solution></textarea><br><br>
-    <button (click)="submitSolution()" style="margin-right: 20px;">Submit</button>
-    <button (click)="cancelSolution()">Cancel</button>
-  </div>
+        <div *ngIf="showUserList">
+          <div *ngFor="let dev of teammates" class="user" (click)="selectUserToChangeRole(dev)">
+            <div class="user_name">{{dev.userId.name}}</div>
+            <div class="user_role">{{dev.role}}</div>
+          </div>
+        </div>
 
-  <div *ngIf="viewSolution" class="ViewSolution">
-    <textarea name="" id="" cols="30" rows="10" #viewSolutionCode></textarea>
-    <br><br>
-    <button (click)="closeSolution()">Close</button>
-  </div>
-
-  <div *ngIf="changeRolesCalled" class="RoleUserContainer">
-    <div *ngIf="bugUsers.length ===0">
-      Currently there are no teammates in your project. Invite them by clicking add member button
-    </div>
-    <div *ngIf="bugUsers.length !==0">
-      Please select one of the users:
-      <hr>
-      <div *ngIf="showRoleDevs">
-        <div *ngFor="let user of bugUsers" class="role_devs" (click)="selectDevToChangeRole(user)">
-          <p>{{user.userId.name}}</p>
-          <p>{{user.role}}</p>
+        <div *ngIf="!showUserList" style="margin-top: 2vh;">
+          <h5>{{selectedUser.userId.name}}</h5>
+          <p>Previous Role: {{selectedUser.role}}</p>
+          New Role:
+          <select name="" id="" (change)="changeRole($event)">
+            <option value="dev">Developer</option>
+            <option value="admin">Admin</option>
+          </select>
         </div>
       </div>
-      <div *ngIf="assignRoles">
-        <p>Name: <b>{{currentDev}}</b></p>
-        <P>Current Role: <b>{{currentRole}}</b></P>
-        <select name="" id="" #roleSelect>
-          <option value="" selected disabled hidden>{{currentRole}}</option>
-          <option value="dev">Developer</option>
-          <option value="admin">Admin</option>
-        </select>
-        <br><br>
-        <button (click)="changeRoleFinal(roleSelect)">Change Role</button>
+
+      <div *ngIf="actionNumber == 2" class="actionPage_2">
+        <h5 *ngIf="teammates.length === 0"> You don't have any teammates yet! Add members to your project to see them
+        </h5>
+
+        <h5 *ngIf="showUserList">Select the member you want to remove</h5>
+
+        <div *ngIf="showUserList">
+          <div *ngFor="let dev of teammates" class="user" (click)="performAction(dev)">
+            <div class="user_name">{{dev.userId.name}}</div>
+            <div class="user_role">{{dev.role}}</div>
+          </div>
+        </div>
       </div>
-    </div><br><br>
-    <button (click)="cancelRole()">Cancel</button>
+
+      <div *ngIf="actionNumber == 3" class="actionPage_3">
+        <textarea name="" id="" #solution placeholder="Provide solution here..."></textarea>
+      </div>
+
+      <div *ngIf="actionNumber == 4" class="actionPage_4">
+        <textarea name="" id="" cols="30" rows="10" disabled>{{selectedBug.solution}}</textarea>
+      </div>
+
+      <div *ngIf="actionNumber == 5" class="actionPage_5">
+        <h5 *ngIf="teammates.length === 0"> You don't have any teammates yet! Add members to your project to see them
+        </h5>
+        <h5 *ngIf="teammates.length !== 0">
+          Assign this bug to any of these developers by selecting them
+        </h5>
+        <br><br><br>
+        <div class="devList_container">
+          <div class="devList_devs" *ngFor="let dev of teammates;let i=index" (click)="selectDev(dev, dev.userId._id)"
+            [ngClass]="{selectedDev: bugUsers.get(dev.userId._id)}">
+            <h5>{{dev.userId.name}}</h5>
+            <p>{{dev.role}}</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="popupModal_btns">
+      <button class="popupModal_btns_action" (click)="performAction()">{{modal_action}}</button>
+      <button class="popupModal_btns_cancel" (click)="closeModal()">Cancel</button>
+    </div>
   </div>
+
 </div>
 <ngx-spinner></ngx-spinner>

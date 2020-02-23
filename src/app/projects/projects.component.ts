@@ -22,21 +22,22 @@ export class ProjectsComponent implements OnInit {
   selectedUser: any;
   message: any = "";
   updateMap = new Map();
-  advcalled: boolean = false;
-  assignDevMaps = new Map();
-  currentBug: any;
-  showSolveArea: boolean = false;
-  viewSolution: boolean = false;
-  bugUsers: any[] = [];
+  teammates: any[] = [];
   currentUserId: any;
-  changeRolesCalled: boolean = false;
-  showRoleDevs: boolean = false;
-  assignRoles: boolean = false;
-  currentDevId: any;
-  currentDev: String;
-  currentRole: String;
-  btndropdown: boolean = false;
-  removeDev: boolean = false;
+  // Modal controls
+  dispbackdrop: boolean = false;
+  scrollVal: any;
+  modal_action: any = "";
+  modal_heading: any = "";
+  actionNumber: any;
+  valueChanged: boolean = false;
+  // action - 1
+  showUserList: boolean = true;
+  selectedRole: any;
+  // action - 3,4,5
+  selectedBug: any;
+  // action - 5
+  bugUsers = new Map();
 
   constructor(
     private api: ApiService,
@@ -55,7 +56,7 @@ export class ProjectsComponent implements OnInit {
       ).userdata._id;
       this.spinner.show();
       let data = JSON.parse(localStorage.getItem("projectData"));
-      this.bugUsers = [];
+      this.teammates = [];
       this.api.getOneProject(data).subscribe((response: any) => {
         this.project = response.project;
         this.users = response.users;
@@ -63,7 +64,7 @@ export class ProjectsComponent implements OnInit {
         console.log(this.bugs);
         this.users.forEach(user => {
           if (user.role !== "owner") {
-            this.bugUsers.push(user);
+            this.teammates.push(user);
           }
         });
         this.spinner.hide();
@@ -187,95 +188,6 @@ export class ProjectsComponent implements OnInit {
     }
   }
 
-  AssignDev(bug) {
-    this.advcalled = true;
-    this.currentBug = bug._id;
-    bug.assignedDev.forEach(user => {
-      this.assignDevMaps.set(user.userId._id, user);
-    });
-  }
-
-  selectDev(user, id) {
-    if (this.assignDevMaps.get(id)) {
-      this.assignDevMaps.delete(id);
-    } else {
-      this.assignDevMaps.set(id, user);
-    }
-  }
-
-  assignBugToDevs() {
-    let dev = [];
-    this.assignDevMaps.forEach(user => {
-      dev.push(user.userId._id);
-    });
-    let data = {
-      bugId: this.currentBug,
-      dev,
-      projectId: this.project._id,
-      projectName: this.project.title
-    };
-
-    this.advcalled = false;
-    this.currentBug = "";
-    this.assignDevMaps.clear();
-
-    this.api.assignBugToDevs(data).subscribe((response: any) => {
-      this.bugUsers = [];
-      this.ngOnInit();
-    });
-  }
-
-  CanceldevAssign() {
-    this.currentBug = "";
-    this.assignDevMaps.clear();
-    this.advcalled = false;
-  }
-
-  solveBug(bug) {
-    this.currentBug = bug._id;
-    this.showSolveArea = true;
-  }
-
-  submitSolution() {
-    if (/^\s*$/.test(this.solution.nativeElement.value)) {
-      this.solution.nativeElement.value = "";
-      alert("solution cannot be empty!");
-    } else {
-      this.showSolveArea = false;
-      let data = {
-        bugId: this.currentBug,
-        solution: this.solution.nativeElement.value,
-        projectId: this.project._id,
-        projectName: this.project.title
-      };
-      this.solution.nativeElement.value = "";
-      this.currentBug = "";
-      this.api.submitSolution(data).subscribe((response: any) => {
-        this.ngOnInit();
-      });
-    }
-  }
-
-  cancelSolution() {
-    this.currentBug = "";
-    this.showSolveArea = false;
-    this.solution.nativeElement.value = "";
-  }
-
-  ViewSolution(bug) {
-    this.currentBug = bug._id;
-    this.viewSolution = true;
-    setTimeout(() => {
-      this.viewSolutionCode.nativeElement.value = bug.solution;
-    }, 10);
-  }
-
-  closeSolution() {
-    this.currentBug = "";
-    this.viewSolutionCode.nativeElement.value = "";
-    this.viewSolution = false;
-  }
-
   viewProfile(user) {
     if (this.currentUserId == user.userId._id) {
       this.router.navigate(["/profile/"]);
@@ -283,115 +195,6 @@ export class ProjectsComponent implements OnInit {
       this.api.viewUserId = user.userId._id;
       this.router.navigate([`/viewProfile/`]);
     }
-  }
-
-  deleteProject() {
-    this.btnContainer();
-    let confirmation = confirm(
-      "Are you sure you want to detele the project? This action cannot be reverted."
-    );
-    if (confirmation) {
-      let data = {
-        projectId: this.project._id
-      };
-
-      this.api.deleteProject(data).subscribe((response: any) => {
-        if (response.statusCode == 307) {
-          alert(response.message);
-        } else {
-          localStorage.removeItem("projectData");
-          this.router.navigate(["/"]);
-        }
-      });
-    }
-  }
-
-  changeRoles() {
-    this.btnContainer();
-    this.changeRolesCalled = true;
-    this.showRoleDevs = true;
-  }
-
-  selectDevToChangeRole(user) {
-    this.currentDevId = user.userId._id;
-    this.currentDev = user.userId.name;
-    if (this.removeDev) {
-      let confirmRemoval = confirm(
-        "Are you sure, you want to remove this member from your project?"
-      );
-      if (confirmRemoval) {
-        this.removeMember();
-      }
-    } else {
-      this.showRoleDevs = false;
-      this.assignRoles = true;
-      this.currentRole = user.role;
-    }
-  }
-
-  changeRoleFinal(element) {
-    if (!element.value) {
-    } else {
-      let data = {
-        projectId: this.project._id,
-        projectName: this.project.title,
-        newId: this.currentDevId,
-        role: String(element.value),
-        isNew: false
-      };
-
-      this.api.addBuddy(data).subscribe((response: any) => {
-        if (response.message) {
-          this.cancelRole();
-          alert(response.message);
-        }
-        this.ngOnInit();
-      });
-    }
-  }
-
-  cancelRole() {
-    this.currentDevId = null;
-    this.currentDev = "";
-    this.currentRole = "";
-    this.changeRolesCalled = false;
-    this.showRoleDevs = false;
-    this.assignRoles = false;
-  }
-
-  btnContainer() {
-    this.btndropdown = !this.btndropdown;
-    let dropdown = document.getElementById("btnDrop");
-    if (this.btndropdown) {
-      dropdown.style.display = "block";
-    } else {
-      dropdown.style.display = "none";
-    }
-  }
-
-  initializeRemoveMember() {
-    this.btnContainer();
-    this.changeRolesCalled = true;
-    this.showRoleDevs = true;
-    this.removeDev = true;
-  }
-
-  removeMember() {
-    let data = {
-      remove: true,
-      projectId: this.project._id,
-      userId: this.currentDevId,
-      projectName: this.project.title
-    };
-    this.removeDev = false;
-    this.cancelRole();
-
-    this.api.removeBuddy(data).subscribe((response: any) => {
-      alert(
-        "It will take some time to remove the user from all bugs. Thank you for cooperation"
-      );
-      this.ngOnInit();
-    });
   }
 
   exitProject() {
@@ -408,5 +211,201 @@ export class ProjectsComponent implements OnInit {
         this.router.navigate(["/"]);
       });
     }
+  }
+
+  deleteProject() {
+    let confirmation = confirm(
+      "Are you sure you want to detele the project? This action cannot be reverted."
+    );
+    if (confirmation) {
+      let data = {
+        projectId: this.project._id
+      };
+      this.api.deleteProject(data).subscribe((response: any) => {
+        if (response.statusCode == 307) {
+          alert(response.message);
+        } else {
+          localStorage.removeItem("projectData");
+          this.router.navigate(["/"]);
+        }
+      });
+    }
+  }
+
+  showModal(info, usecase, bug) {
+    this.dispbackdrop = true;
+    this.scrollVal = window.pageYOffset;
+    window.scrollTo(0, 0);
+    document.body.style.overflowY = "hidden";
+    this.actionNumber = usecase;
+    if (bug) {
+      this.selectedBug = bug;
+    }
+    switch (usecase) {
+      case 1: {
+        this.modal_action = "Done";
+        this.modal_heading = "Change Role of teammates";
+        break;
+      }
+      case 2: {
+        this.modal_action = "Done";
+        this.modal_heading = "Remove Member";
+
+        break;
+      }
+      case 3: {
+        this.modal_action = "Submit";
+        this.modal_heading = "Provide solution to bug";
+        break;
+      }
+      case 4: {
+        this.modal_action = "Done";
+        this.modal_heading = "View Solution";
+        break;
+      }
+      case 5: {
+        this.modal_action = "Assign";
+        this.modal_heading = "Assign bug to developer";
+        bug.assignedDev.forEach(user => {
+          this.bugUsers.set(user.userId._id, user);
+        });
+        console.log(bug);
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+  }
+
+  closeModal() {
+    this.dispbackdrop = false;
+    this.bugUsers.clear();
+    if (this.valueChanged) this.ngOnInit();
+    document.body.style.overflowY = "scroll";
+    window.scrollBy(0, this.scrollVal);
+  }
+
+  // action 1
+  selectUserToChangeRole(dev) {
+    this.showUserList = false;
+    this.selectedUser = dev;
+    this.selectedRole = dev.role;
+  }
+
+  changeRole(event) {
+    this.selectedRole = event.target.selectedOptions[0].value;
+  }
+
+  // action 5
+  selectDev(user, id) {
+    if (this.bugUsers.get(id)) {
+      this.bugUsers.delete(id);
+    } else {
+      this.bugUsers.set(id, user);
+    }
+  }
+
+  performAction(options?) {
+    switch (this.actionNumber) {
+      case 1: {
+        let data = {
+          projectId: this.project._id,
+          projectName: this.project.title,
+          newId: this.selectedUser.userId._id,
+          role: String(this.selectedRole),
+          isNew: false
+        };
+
+        this.api.addBuddy(data).subscribe((response: any) => {
+          if (response.message) {
+            alert(response.message);
+          }
+          this.valueChanged = true;
+          this.closeModal();
+        });
+
+        break;
+      }
+      case 2: {
+        if (!options) {
+          this.closeModal();
+          break;
+        }
+        let confirmAction = confirm(
+          "Are you sure you want to remove this member?"
+        );
+        if (confirmAction) {
+          let data = {
+            remove: true,
+            projectId: this.project._id,
+            userId: this.selectedUser.userId._id,
+            projectName: this.project.title
+          };
+
+          this.api.removeBuddy(data).subscribe((response: any) => {
+            alert(
+              "It will take some time to remove the user from all bugs. Thank you for cooperation"
+            );
+            this.valueChanged = true;
+            this.closeModal();
+          });
+        } else {
+          this.closeModal();
+        }
+      }
+      case 3: {
+        if (/^\s*$/.test(this.solution.nativeElement.value)) {
+          this.solution.nativeElement.value = "";
+          alert("solution cannot be empty!");
+        } else {
+          let data = {
+            bugId: this.selectedBug,
+            solution: this.solution.nativeElement.value,
+            projectId: this.project._id,
+            projectName: this.project.title
+          };
+          this.solution.nativeElement.value = "";
+          this.selectedBug = "";
+          this.api.submitSolution(data).subscribe((response: any) => {
+            this.valueChanged = true;
+            this.closeModal();
+          });
+        }
+        break;
+      }
+      case 4: {
+        this.closeModal();
+        break;
+      }
+      case 5: {
+        let dev = [];
+        this.bugUsers.forEach(user => {
+          dev.push(user.userId._id);
+        });
+        let data = {
+          bugId: this.selectedBug._id,
+          dev,
+          projectId: this.project._id,
+          projectName: this.project.title
+        };
+        this.selectedBug = "";
+        this.bugUsers.clear();
+
+        this.api.assignBugToDevs(data).subscribe((response: any) => {
+          this.teammates = [];
+          this.valueChanged = true;
+          this.closeModal();
+        });
+      }
+
+      default: {
+        break;
+      }
+    }
+  }
+
+  showSubtitleContent(text) {
+    if (text) alert(text);
   }
 }
