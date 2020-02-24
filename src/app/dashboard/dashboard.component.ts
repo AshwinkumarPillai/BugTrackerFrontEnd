@@ -26,6 +26,9 @@ export class DashboardComponent implements OnInit {
         this.projects = response.projects;
         this.spinner.hide();
       });
+      setInterval(() => {
+        this.spinner.hide();
+      }, 5000);
     }
   }
 
