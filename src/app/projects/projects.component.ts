@@ -1,4 +1,11 @@
-import { Component, OnInit, ViewChild, ElementRef, Input } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  Input,
+  OnDestroy
+} from "@angular/core";
 import { ApiService } from "../services/api.service";
 import { Router } from "@angular/router";
 import { NgxSpinnerService } from "ngx-spinner";
@@ -8,7 +15,7 @@ import { NgxSpinnerService } from "ngx-spinner";
   templateUrl: "./projects.component.html",
   styleUrls: ["./projects.component.scss"]
 })
-export class ProjectsComponent implements OnInit {
+export class ProjectsComponent implements OnInit, OnDestroy {
   @ViewChild("selectUser") input: ElementRef;
   @ViewChild("solution") solution: ElementRef;
   @ViewChild("viewSolutionCode") viewSolutionCode: ElementRef;
@@ -73,7 +80,11 @@ export class ProjectsComponent implements OnInit {
 
     setTimeout(() => {
       this.spinner.hide();
-    }, 8000);
+    }, 5000);
+  }
+
+  ngOnDestroy() {
+    document.body.style.overflowY = "auto";
   }
 
   createBug() {
@@ -232,7 +243,8 @@ export class ProjectsComponent implements OnInit {
     }
   }
 
-  showModal(info, usecase, bug) {
+  async showModal(info, usecase, bug) {
+    await this.clearValues();
     this.dispbackdrop = true;
     this.scrollVal = window.pageYOffset;
     window.scrollTo(0, 0);
@@ -284,6 +296,15 @@ export class ProjectsComponent implements OnInit {
     if (this.valueChanged) this.ngOnInit();
     document.body.style.overflowY = "scroll";
     window.scrollBy(0, this.scrollVal);
+  }
+
+  clearValues() {
+    this.showUserList = true;
+    this.dispbackdrop = false;
+    this.selectedRole = "";
+    this.selectedBug = "";
+    this.bugUsers.clear();
+    this.valueChanged = false;
   }
 
   // action 1
