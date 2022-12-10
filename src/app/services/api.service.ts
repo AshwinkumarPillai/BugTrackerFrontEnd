@@ -9,7 +9,8 @@ import { HttpClient } from "@angular/common/http";
 @Injectable()
 export class ApiService {
   // url: string = "http://localhost:3500";
-  url: string = "https://ash-bug-tracker.herokuapp.com";
+  // url: string = "https://ash-bug-tracker.herokuapp.com";
+  url: string = "https://ash-bug-tracker.onrender.com";
   token: any;
   currentProject: any;
   currentBugs: any;
